@@ -1,5 +1,6 @@
 import { connectMongoDB } from '~/lib/mongodb'
 import User from '~/models/User'
+import Role from '~/models/Role'
 import { verifyToken, extractTokenFromHeader } from '~/lib/jwt'
 
 export default defineEventHandler(async (event) => {

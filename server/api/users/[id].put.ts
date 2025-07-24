@@ -1,4 +1,5 @@
 import User from '~/models/User'
+import Role from '~/models/Role'
 import { connectMongoDB } from '~/lib/mongodb'
 import { verifyToken, extractTokenFromHeader } from '~/lib/jwt'
 import bcrypt from 'bcryptjs'

@@ -1,9 +1,19 @@
 import { connectMongoDB } from '~/lib/mongodb'
 import User from '~/models/User'
+import Role from '~/models/Role'
 import { signToken } from '~/lib/jwt'
+
+// Ensure models are registered
+const ensureModelsRegistered = async () => {
+  // Touch the models to ensure they're registered
+  const userModel = User
+  const roleModel = Role
+  return { userModel, roleModel }
+}
 
 export default defineEventHandler(async (event) => {
   await connectMongoDB()
+  await ensureModelsRegistered()
   
   try {
     const body = await readBody(event)

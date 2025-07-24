@@ -18,7 +18,14 @@
       "Bash(npm run:*)",
       "Bash(cp:*)",
       "Bash(cat:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(head:*)",
+      "Bash(done)",
+      "Bash(pkill:*)",
+      "Bash(NUXT_PORT=3001 node .output/server/index.mjs)",
+      "Bash(PORT=3002 node .output/server/index.mjs)"
     ],
     "deny": []
   }
