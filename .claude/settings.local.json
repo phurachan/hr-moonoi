@@ -25,7 +25,8 @@
       "Bash(done)",
       "Bash(pkill:*)",
       "Bash(NUXT_PORT=3001 node .output/server/index.mjs)",
-      "Bash(PORT=3002 node .output/server/index.mjs)"
+      "Bash(PORT=3002 node .output/server/index.mjs)",
+      "Bash(PORT=3004 node .output/server/index.mjs)"
     ],
     "deny": []
   }

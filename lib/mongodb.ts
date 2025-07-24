@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
-// Import all models to ensure they are registered
-import '~/models'
+import { loadAllModels } from './loadModels'
 
 const MONGODB_URI = process.env.MONGO_URI
 
@@ -25,6 +24,9 @@ if (!cached) {
 }
 
 export async function connectMongoDB(): Promise<mongoose.Connection> {
+  // Ensure all models are loaded first
+  await loadAllModels()
+  
   if (cached.conn) {
     return cached.conn
   }
