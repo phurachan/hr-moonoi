@@ -1,0 +1,92 @@
+/* Fix for DaisyUI btn-outline + btn-primary specificity issue */
+.btn-outline.btn-primary {
+  background-color: transparent !important;
+  border-color: oklch(var(--p)) !important;
+  color: oklch(var(--p)) !important;
+}
+
+.btn-outline.btn-primary:hover {
+  background-color: oklch(var(--p)) !important;
+  border-color: oklch(var(--p)) !important;
+  color: oklch(var(--pc)) !important;
+}
+
+.btn-outline.btn-primary:active,
+.btn-outline.btn-primary.btn-active {
+  background-color: oklch(var(--p)) !important;
+  border-color: oklch(var(--p)) !important;
+  color: oklch(var(--pc)) !important;
+}
+
+/* Fix for other button outline variants */
+.btn-outline.btn-secondary {
+  background-color: transparent !important;
+  border-color: oklch(var(--s)) !important;
+  color: oklch(var(--s)) !important;
+}
+
+.btn-outline.btn-secondary:hover {
+  background-color: oklch(var(--s)) !important;
+  border-color: oklch(var(--s)) !important;
+  color: oklch(var(--sc)) !important;
+}
+
+.btn-outline.btn-accent {
+  background-color: transparent !important;
+  border-color: oklch(var(--a)) !important;
+  color: oklch(var(--a)) !important;
+}
+
+.btn-outline.btn-accent:hover {
+  background-color: oklch(var(--a)) !important;
+  border-color: oklch(var(--a)) !important;
+  color: oklch(var(--ac)) !important;
+}
+
+.btn-outline.btn-success {
+  background-color: transparent !important;
+  border-color: oklch(var(--su)) !important;
+  color: oklch(var(--su)) !important;
+}
+
+.btn-outline.btn-success:hover {
+  background-color: oklch(var(--su)) !important;
+  border-color: oklch(var(--su)) !important;
+  color: oklch(var(--suc)) !important;
+}
+
+.btn-outline.btn-warning {
+  background-color: transparent !important;
+  border-color: oklch(var(--wa)) !important;
+  color: oklch(var(--wa)) !important;
+}
+
+.btn-outline.btn-warning:hover {
+  background-color: oklch(var(--wa)) !important;
+  border-color: oklch(var(--wa)) !important;
+  color: oklch(var(--wac)) !important;
+}
+
+.btn-outline.btn-info {
+  background-color: transparent !important;
+  border-color: oklch(var(--in)) !important;
+  color: oklch(var(--in)) !important;
+}
+
+.btn-outline.btn-info:hover {
+  background-color: oklch(var(--in)) !important;
+  border-color: oklch(var(--in)) !important;
+  color: oklch(var(--inc)) !important;
+}
+
+.btn-outline.btn-error {
+  background-color: transparent !important;
+  border-color: oklch(var(--er)) !important;
+  color: oklch(var(--er)) !important;
+}
+
+.btn-outline.btn-error:hover {
+  background-color: oklch(var(--er)) !important;
+  border-color: oklch(var(--er)) !important;
+  color: oklch(var(--erc)) !important;
+}
