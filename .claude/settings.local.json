@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(find:*)",
+      "Bash(touch:*)",
+      "Bash(npm run dev:*)",
+      "Bash(ls:*)",
+      "Bash(curl:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npm run build:*)",
+      "Bash(chmod:*)",
+      "Bash(node:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run typecheck:*)",
+      "Bash(npm run:*)",
+      "Bash(cp:*)",
+      "Bash(cat:*)",
+      "Bash(echo:*)"
+    ],
+    "deny": []
+  }
+}
