@@ -126,10 +126,6 @@ const handleLogin = async () => {
     const redirect = router.currentRoute.value.query.redirect as string
     const targetPath = redirect ? decodeURIComponent(redirect) : '/dashboard'
     
-    console.log('LOGIN: Raw redirect param:', redirect)
-    console.log('LOGIN: Decoded target path:', targetPath)
-    console.log('LOGIN: Full query object:', router.currentRoute.value.query)
-    
     await navigateTo(targetPath, { replace: true })
     
   } catch (err) {
