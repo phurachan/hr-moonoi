@@ -29,7 +29,6 @@
 
         .header {
             display: flex;
-            justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 20px;
             border-bottom: 2px solid #333;
@@ -38,6 +37,7 @@
 
         .company-info {
             flex: 1;
+            margin-left: 20px;
         }
 
         .company-name-th {
@@ -133,7 +133,7 @@
 
         .totals {
             margin-left: auto;
-            width: 300px;
+            width: 500px;
         }
 
         .totals table {
@@ -146,6 +146,19 @@
             border: 1px solid #333;
         }
 
+        .totals td:first-child {
+            width: 30%;
+        }
+
+        .totals td:nth-child(2) {
+            width: 40%;
+            text-align: center;
+        }
+
+        .totals td:last-child {
+            width: 30%;
+        }
+
         .totals .total-row {
             font-weight: bold;
             background-color: #f5f5f5;
@@ -153,8 +166,12 @@
 
         .reference-info {
             font-size: 12px;
-            margin: 10px 0;
-            font-style: italic;
+            margin: 20px 0 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            color: #666;
+            line-height: 1.4;
         }
 
         .payment-info {
@@ -170,19 +187,23 @@
 
         .signature-section {
             margin-top: 50px;
-            text-align: right;
+            text-align: center;
+            width: 250px;
+            margin-left: auto;
+            margin-right: 0;
         }
 
         .signature-line {
             border-bottom: 1px solid #333;
             width: 200px;
-            margin: 20px 0 5px auto;
+            margin: 20px auto 5px auto;
         }
 
         .amount-text {
             font-size: 12px;
             font-style: italic;
-            margin: 5px 0;
+            margin: 0;
+            display: inline-block;
         }
 
         @media print {
@@ -197,6 +218,9 @@
     <div class="invoice-container">
         <!-- Header -->
         <div class="header">
+            <div class="logo" id="logo">
+                <img src="./public/images/logo-moonoi.png" alt="Moonoi Forward Logo" />
+            </div>
             <div class="company-info">
                 <div class="company-name-th" id="companyNameTh">บริษัท หมูน้อย ฟอร์เวิร์ด จำกัด (สำนักงานใหญ่)</div>
                 <div class="company-name-en" id="companyNameEn">Moonoi Forward Co., Ltd.</div>
@@ -204,9 +228,6 @@
                     99/101 ม.พิมุกต์ 1 เฟส 5 ซอย 6 ตำบล สันทรายน้อย อำเภอสันทราย เชียงใหม่ 50210<br>
                     Tel. <span id="tel">085-396-7806, 097-954-8922</span> Tax ID: <span id="taxId">0505562001590</span>
                 </div>
-            </div>
-            <div class="logo" id="logo">
-                <img src="./public/images/logo-moonoi.png" alt="Moonoi Forward Logo" />
             </div>
         </div>
 
@@ -254,12 +275,6 @@
             </tbody>
         </table>
 
-        <!-- Reference Information -->
-        <div class="reference-info" id="referenceInfo">
-            * อ้างถึงใบเสนอราคา เลขที่ QUO2025009 วันที่ 10/06/2568 
-            และใบสั่งซื้อเลขที่ PO2237250023วันที่ 23/06/2025
-        </div>
-
         <!-- Totals -->
         <div class="totals">
             <table>
@@ -275,11 +290,14 @@
                     <td>จำนวนเงินรวมทั้งสิ้น</td>
                     <td style="text-align: right" id="total">78,645</td>
                 </tr>
+                <tr class="total-row">
+                    <td colspan="2" style="text-align: right"><span class="amount-text" id="amountText">(เจ็ดหมื่นแปดพันหกร้อยสี่สิบห้าบาทถ้วน)</span></td>
+                </tr>
             </table>
         </div>
 
-        <div class="amount-text" id="amountText">
-            (เจ็ดหมื่นแปดพันหกร้อยสี่สิบห้าบาทถ้วน)
+        <!-- Reference Information -->
+        <div class="reference-info" id="referenceInfo">
         </div>
 
         <!-- Payment Information -->
@@ -350,9 +368,13 @@
                 document.getElementById('amountText').textContent = data.totals.amountInWords || '';
             }
 
-            // Reference Information
-            if (data.reference) {
-                document.getElementById('referenceInfo').innerHTML = data.reference || '';
+            // Reference Information - show only if reference exists
+            const referenceInfo = document.getElementById('referenceInfo');
+            if (data.reference && data.reference.trim()) {
+                referenceInfo.innerHTML = data.reference;
+                referenceInfo.style.display = 'block';
+            } else {
+                referenceInfo.style.display = 'none';
             }
 
             // Payment Information
@@ -401,7 +423,7 @@
                 total: 78645,
                 amountInWords: "(เจ็ดหมื่นแปดพันหกร้อยสี่สิบห้าบาทถ้วน)"
             },
-            reference: "* อ้างถึงใบเสนอราคา เลขที่ QUO2025009 วันที่ 10/06/2568 และใบสั่งซื้อเลขที่ PO2237250023วันที่ 23/06/2025",
+            reference: "",
             payment: {
                 companyName: "Moonoi Forward Co., Ltd.",
                 accountNumber: "051-8-44336-4",

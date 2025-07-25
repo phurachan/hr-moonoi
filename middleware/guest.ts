@@ -1,13 +1,10 @@
 export default defineNuxtRouteMiddleware((to, from) => {
   const authStore = useAuthStore()
   
-  // Initialize auth state on first load
-  if (process.client && !authStore.isAuthenticated) {
-    authStore.initializeAuth()
-  }
-  
-  // If authenticated, redirect to dashboard
+  // If authenticated, redirect to the intended path or dashboard
   if (authStore.isAuthenticated) {
-    return navigateTo('/dashboard')
+    const redirect = to.query.redirect as string
+    const targetPath = redirect ? decodeURIComponent(redirect) : '/dashboard'
+    return navigateTo(targetPath)
   }
 })

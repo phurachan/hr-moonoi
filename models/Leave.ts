@@ -131,4 +131,4 @@ LeaveSchema.index({ startDate: 1 })
 LeaveSchema.index({ endDate: 1 })
 LeaveSchema.index({ appliedAt: -1 })
 
-export default mongoose.models.Leave || mongoose.model<ILeave>('Leave', LeaveSchema)
+export default (mongoose.models && mongoose.models.Leave) || mongoose.model<ILeave>('Leave', LeaveSchema)

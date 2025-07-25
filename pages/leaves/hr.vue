@@ -123,18 +123,16 @@
             </select>
           </div>
           <div class="form-control">
-            <input 
-              v-model="filters.startDate" 
-              type="date" 
-              class="input input-bordered"
+            <BaseInputDate
+              v-model="filters.startDate"
+              placeholder="Start Date"
               @change="applyFilters"
             />
           </div>
           <div class="form-control">
-            <input 
-              v-model="filters.endDate" 
-              type="date" 
-              class="input input-bordered"
+            <BaseInputDate
+              v-model="filters.endDate"
+              placeholder="End Date"
               @change="applyFilters"
             />
           </div>

@@ -11,7 +11,7 @@
     </div>
 
     <!-- Employee Summary Cards -->
-    <EmployeeEmployeeSummaryCards ref="employeeSummaryRef" />
+    <EmployeeSummaryCards ref="employeeSummaryRef" />
 
     <div class="card bg-base-100 shadow-lg">
       <div class="card-body">

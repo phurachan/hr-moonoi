@@ -1,13 +1,8 @@
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <NuxtLayout :name="layout">
+    <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
-
-<script setup>
-const route = useRoute()
-const layout = computed(() => route.meta.layout || 'default')
-</script>

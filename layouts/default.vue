@@ -1,12 +1,18 @@
 <template>
   <div class="min-h-screen bg-base-200">
-    <div class="drawer lg:drawer-open">
+    <!-- Show loading during auth initialization -->
+    <div v-if="authStore.isInitializing || !authStore.hasInitialized" class="min-h-screen bg-base-200 flex items-center justify-center">
+      <AuthLoading />
+    </div>
+    
+    <!-- Show app once auth is initialized -->
+    <div v-else class="drawer lg:drawer-open">
       <input id="drawer-toggle" type="checkbox" class="drawer-toggle" />
       
       <div class="drawer-content flex flex-col">
         <NavigationNavbar />
 
-        <main class="flex-1 p-4">
+        <main class="flex-1 p-4 bg-base-100">
           <slot />
         </main>
         
@@ -27,8 +33,4 @@
 import { useAuthStore } from '~/stores/auth'
 
 const authStore = useAuthStore()
-
-onMounted(() => {
-  authStore.initializeAuth()
-})
 </script>

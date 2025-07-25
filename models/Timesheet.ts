@@ -117,4 +117,4 @@ timesheetSchema.virtual('totalBillableHours').get(function() {
   return this.totalHours
 })
 
-export default mongoose.models.Timesheet || mongoose.model('Timesheet', timesheetSchema)
+export default (mongoose.models && mongoose.models.Timesheet) || mongoose.model('Timesheet', timesheetSchema)

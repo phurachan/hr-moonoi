@@ -65,4 +65,4 @@ IncomeExpenseSchema.index({ category: 1 })
 IncomeExpenseSchema.index({ createdBy: 1 })
 IncomeExpenseSchema.index({ type: 1, date: -1 })
 
-export default mongoose.models.IncomeExpense || mongoose.model<IIncomeExpense>('IncomeExpense', IncomeExpenseSchema)
+export default (mongoose.models && mongoose.models.IncomeExpense) || mongoose.model<IIncomeExpense>('IncomeExpense', IncomeExpenseSchema)

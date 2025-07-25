@@ -8,7 +8,7 @@
     </div>
 
     <!-- Employee Summary Cards - only show if user has employees.read permission -->
-    <EmployeeEmployeeSummaryCards v-if="canViewEmployees" ref="employeeSummaryRef" />
+    <EmployeeSummaryCards v-if="canViewEmployees" ref="employeeSummaryRef" />
 
     <!-- Timesheet Summary Cards -->
     <TimesheetsTimesheetSummaryCards ref="timesheetSummaryRef" />

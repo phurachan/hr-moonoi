@@ -20,7 +20,7 @@ export default defineNuxtPlugin({
           import('~/models/LeaveBalance')
         ])
         
-        console.log('✅ All Mongoose models registered successfully')
+        // console.log('✅ All Mongoose models registered successfully')
       } catch (error) {
         console.error('❌ Error registering models:', error)
       }

@@ -13,7 +13,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   
   // Check if user is authenticated
   if (!authStore.isAuthenticated) {
-    return navigateTo('/login')
+    return navigateTo(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
   }
   
   // If user is authenticated but user data isn't loaded yet, allow access
@@ -27,7 +27,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
     '/employees': ['employees.access'],
     '/timesheets': ['timesheets.access'],
     '/timesheets/hr': ['timesheets.hr_view'],
-    '/timesheets/reports': ['timesheets.reports'],
     '/settings': ['settings.access'],
     '/profile': ['profile.access']
   }
@@ -55,7 +54,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
         return navigateTo('/dashboard')
       } else {
         // If user can't access dashboard, redirect to login
-        return navigateTo('/login')
+        return navigateTo(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
       }
     }
   }

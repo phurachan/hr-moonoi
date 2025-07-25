@@ -517,6 +517,7 @@
 </template>
 
 <script setup lang="ts">
+import { convertNumberToThaiText } from '~/utils/thaiNumberToText'
 import { useAuthStore } from '~/stores/auth'
 
 definePageMeta({
@@ -751,35 +752,6 @@ function formatCurrency(amount: number) {
   }).format(amount)
 }
 
-function convertNumberToThaiText(number: number): string {
-  // Simple Thai number to text conversion
-  const thaiNumbers = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า']
-  
-  if (number === 0) return '(ศูนย์บาทถ้วน)'
-  
-  const numberStr = Math.floor(number).toString()
-  let result = '('
-  
-  if (number < 10) {
-    result += thaiNumbers[Math.floor(number)]
-  } else if (number < 100) {
-    const tens = Math.floor(number / 10)
-    const ones = Math.floor(number % 10)
-    if (tens === 1) {
-      result += 'สิบ'
-    } else {
-      result += thaiNumbers[tens] + 'สิบ'
-    }
-    if (ones > 0) {
-      result += thaiNumbers[ones]
-    }
-  } else {
-    result += numberStr
-  }
-  
-  result += 'บาทถ้วน)'
-  return result
-}
 
 // Customer-related functions
 async function fetchCustomers() {

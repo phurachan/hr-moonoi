@@ -62,4 +62,4 @@ CustomerSchema.index({
   address: 'text'
 })
 
-export default mongoose.models.Customer || mongoose.model<ICustomer>('Customer', CustomerSchema)
+export default (mongoose.models && mongoose.models.Customer) || mongoose.model<ICustomer>('Customer', CustomerSchema)

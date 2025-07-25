@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar bg-base-100 shadow-lg">
+  <nav class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
     <div class="navbar-start">
       <!-- <div class="flex-none lg:hidden">
         <label for="drawer-toggle" class="btn btn-square btn-ghost">

@@ -108,4 +108,4 @@ const LeaveBalanceSchema: Schema = new Schema({
 LeaveBalanceSchema.index({ employeeId: 1, year: 1 }, { unique: true })
 LeaveBalanceSchema.index({ year: 1 })
 
-export default mongoose.models.LeaveBalance || mongoose.model<ILeaveBalance>('LeaveBalance', LeaveBalanceSchema)
+export default (mongoose.models && mongoose.models.LeaveBalance) || mongoose.model<ILeaveBalance>('LeaveBalance', LeaveBalanceSchema)

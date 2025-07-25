@@ -51,4 +51,4 @@ RoleSchema.index({ name: 1 })
 RoleSchema.index({ isActive: 1 })
 RoleSchema.index({ createdAt: -1 })
 
-export default mongoose.models.Role || mongoose.model<IRole>('Role', RoleSchema)
+export default (mongoose.models && mongoose.models.Role) || mongoose.model<IRole>('Role', RoleSchema)

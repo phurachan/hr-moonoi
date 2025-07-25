@@ -77,7 +77,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useAuthStore } from '~/stores/auth'
 
 definePageMeta({
@@ -122,7 +122,15 @@ const handleLogin = async () => {
       password: form.value.password
     })
     
-    await navigateTo('/dashboard', { replace: true })
+    // Check for redirect parameter in URL
+    const redirect = router.currentRoute.value.query.redirect as string
+    const targetPath = redirect ? decodeURIComponent(redirect) : '/dashboard'
+    
+    console.log('LOGIN: Raw redirect param:', redirect)
+    console.log('LOGIN: Decoded target path:', targetPath)
+    console.log('LOGIN: Full query object:', router.currentRoute.value.query)
+    
+    await navigateTo(targetPath, { replace: true })
     
   } catch (err) {
     console.error('Login error:', err)
@@ -132,10 +140,35 @@ const handleLogin = async () => {
   }
 }
 
-// Redirect if already authenticated
-onMounted(() => {
+// Handle redirect when already authenticated
+onMounted(async () => {
+  console.log('🔑 LOGIN PAGE: onMounted')
+  console.log('🔑 LOGIN PAGE: Auth state:', authStore.isAuthenticated)
+  console.log('🔑 LOGIN PAGE: Current route:', router.currentRoute.value.fullPath)
+  console.log('🔑 LOGIN PAGE: Query params:', router.currentRoute.value.query)
+  console.log('🔑 LOGIN PAGE: Redirect param:', router.currentRoute.value.query.redirect)
+  
+  // Wait a bit for any pending auth initialization
+  await nextTick()
+  
   if (authStore.isAuthenticated) {
-    navigateTo('/dashboard')
+    const redirect = router.currentRoute.value.query.redirect as string
+    const targetPath = redirect ? decodeURIComponent(redirect) : '/dashboard'
+    console.log('🔑 LOGIN PAGE: Already authenticated, redirecting to:', targetPath)
+    navigateTo(targetPath)
+  }
+})
+
+// Also watch for auth state changes in case auth completes after mount
+watch(() => authStore.isAuthenticated, (isAuthenticated, oldValue) => {
+  console.log('🔑 LOGIN PAGE: Auth state changed from', oldValue, 'to', isAuthenticated)
+  if (isAuthenticated && !oldValue) {
+    console.log('🔑 LOGIN PAGE: Current route during auth change:', router.currentRoute.value.fullPath)
+    console.log('🔑 LOGIN PAGE: Query during auth change:', router.currentRoute.value.query)
+    const redirect = router.currentRoute.value.query.redirect as string
+    const targetPath = redirect ? decodeURIComponent(redirect) : '/dashboard'
+    console.log('🔑 LOGIN PAGE: Auth became true, redirecting to:', targetPath)
+    navigateTo(targetPath)
   }
 })
 </script>

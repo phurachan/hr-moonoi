@@ -1,5 +1,6 @@
 import { connectMongoDB } from '~/lib/mongodb'
 import { validateTimesheetPermission } from '~/server/utils/timesheetPermissions'
+import { convertNumberToThaiText } from '~/utils/thaiNumberToText'
 
 export default defineEventHandler(async (event) => {
   await connectMongoDB()
@@ -163,37 +164,6 @@ function transformTimesheetToInvoice(data: any, query: any) {
   }
 }
 
-function convertNumberToThaiText(number: number): string {
-  // Simple Thai number to text conversion (basic implementation)
-  // In production, you'd want a more comprehensive conversion
-  const thaiNumbers = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า']
-  
-  if (number === 0) return '(ศูนย์บาทถ้วน)'
-  
-  const numberStr = Math.floor(number).toString()
-  let result = '('
-  
-  // Simple conversion - just convert the integer part
-  if (number < 10) {
-    result += thaiNumbers[Math.floor(number)]
-  } else if (number < 100) {
-    const tens = Math.floor(number / 10)
-    const ones = Math.floor(number % 10)
-    if (tens === 1) {
-      result += 'สิบ'
-    } else {
-      result += thaiNumbers[tens] + 'สิบ'
-    }
-    if (ones > 0) {
-      result += thaiNumbers[ones]
-    }
-  } else {
-    result += numberStr // Fallback to number for complex cases
-  }
-  
-  result += 'บาตถ้วน)'
-  return result
-}
 
 function populateTemplateWithData(htmlContent: string, invoiceData: any): string {
   let result = htmlContent
@@ -247,14 +217,16 @@ function populateTemplateWithData(htmlContent: string, invoiceData: any): string
     result = result.replace(/(<td style="text-align: right" id="subtotal">)[^<]*(<\/td>)/, `$1${invoiceData.totals.subtotal ? Number(invoiceData.totals.subtotal).toLocaleString() : '0'}$2`)
     result = result.replace(/(<td style="text-align: right" id="vat">)[^<]*(<\/td>)/, `$1${invoiceData.totals.vat ? Number(invoiceData.totals.vat).toLocaleString() : '0'}$2`)
     result = result.replace(/(<td style="text-align: right" id="total">)[^<]*(<\/td>)/, `$1${invoiceData.totals.total ? Number(invoiceData.totals.total).toLocaleString() : '0'}$2`)
-    result = result.replace(/(<div class="amount-text" id="amountText">)[^<]*(<\/div>)/, `$1${invoiceData.totals.amountInWords || ''}$2`)
+    result = result.replace(/(<span class="amount-text" id="amountText">)[^<]*(<\/span>)/, `$1${invoiceData.totals.amountInWords || ''}$2`)
   }
   
-  // Reference Information
-  if (invoiceData.reference) {
-    result = result.replace(/(<div class="reference-info" id="referenceInfo">)[\s\S]*?(<\/div>)/, `$1
-            ${invoiceData.reference || ''}
-        $2`)
+  // Reference Information - show only if reference exists
+  if (invoiceData.reference && invoiceData.reference.trim()) {
+    result = result.replace(/(<div class="reference-info" id="referenceInfo">)[\s\S]*?(<\/div>)/, `$1${invoiceData.reference}$2`)
+  } else {
+    // Hide the reference section if no reference
+    result = result.replace(/(<div class="reference-info" id="referenceInfo">)[\s\S]*?(<\/div>)/, `$1$2`)
+    result = result.replace(/<div class="reference-info" id="referenceInfo"><\/div>/, '<div class="reference-info" id="referenceInfo" style="display: none;"></div>')
   }
   
   // Payment Information

@@ -101,4 +101,4 @@ EmployeeSchema.index({
   department: 'text' 
 })
 
-export default mongoose.models.Employee || mongoose.model<IEmployee>('Employee', EmployeeSchema)
+export default (mongoose.models && mongoose.models.Employee) || mongoose.model<IEmployee>('Employee', EmployeeSchema)

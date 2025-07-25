@@ -98,39 +98,25 @@
         <!-- Date Range -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="form-control">
-            <label class="label">
-              <span class="label-text text-gray-300">Start Date *</span>
-            </label>
-            <input 
-              type="date" 
+            <BaseInputDate
               v-model="form.startDate"
-              class="input input-bordered"
-              :class="{ 'input-error': errors.startDate }"
+              label="Start Date"
+              :required="true"
               :disabled="form.isHalfDay"
+              :error-message="errors.startDate"
               @change="updateDates"
-              required
             />
-            <label v-if="errors.startDate" class="label">
-              <span class="label-text-alt text-red-400">{{ errors.startDate }}</span>
-            </label>
           </div>
 
           <div class="form-control">
-            <label class="label">
-              <span class="label-text text-gray-300">End Date *</span>
-            </label>
-            <input 
-              type="date" 
+            <BaseInputDate
               v-model="form.endDate"
-              class="input input-bordered"
-              :class="{ 'input-error': errors.endDate }"
+              label="End Date"
+              :required="true"
               :disabled="form.isHalfDay"
+              :error-message="errors.endDate"
               @change="updateDates"
-              required
             />
-            <label v-if="errors.endDate" class="label">
-              <span class="label-text-alt text-red-400">{{ errors.endDate }}</span>
-            </label>
           </div>
         </div>
 

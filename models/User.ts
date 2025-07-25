@@ -120,4 +120,4 @@ userSchema.virtual('fullName').get(function() {
   return this.name
 })
 
-export default mongoose.models.User || mongoose.model('User', userSchema)
+export default (mongoose.models && mongoose.models.User) || mongoose.model('User', userSchema)

@@ -61,4 +61,4 @@ PermissionSchema.index({ action: 1 })
 PermissionSchema.index({ resource: 1 })
 PermissionSchema.index({ isActive: 1 })
 
-export default mongoose.models.Permission || mongoose.model<IPermission>('Permission', PermissionSchema)
+export default (mongoose.models && mongoose.models.Permission) || mongoose.model<IPermission>('Permission', PermissionSchema)

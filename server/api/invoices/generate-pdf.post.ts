@@ -190,14 +190,16 @@ function populateTemplateWithData(htmlContent: string, invoiceData: any): string
     result = result.replace(/(<td style="text-align: right" id="subtotal">)[^<]*(<\/td>)/, `$1${invoiceData.totals.subtotal ? Number(invoiceData.totals.subtotal).toLocaleString() : '0'}$2`)
     result = result.replace(/(<td style="text-align: right" id="vat">)[^<]*(<\/td>)/, `$1${invoiceData.totals.vat ? Number(invoiceData.totals.vat).toLocaleString() : '0'}$2`)
     result = result.replace(/(<td style="text-align: right" id="total">)[^<]*(<\/td>)/, `$1${invoiceData.totals.total ? Number(invoiceData.totals.total).toLocaleString() : '0'}$2`)
-    result = result.replace(/(<div class="amount-text" id="amountText">)[^<]*(<\/div>)/, `$1${invoiceData.totals.amountInWords || ''}$2`)
+    result = result.replace(/(<span class="amount-text" id="amountText">)[^<]*(<\/span>)/, `$1${invoiceData.totals.amountInWords || ''}$2`)
   }
   
-  // Reference Information
-  if (invoiceData.reference) {
-    result = result.replace(/(<div class="reference-info" id="referenceInfo">)[\s\S]*?(<\/div>)/, `$1
-            ${invoiceData.reference || ''}
-        $2`)
+  // Reference Information - show only if reference exists
+  if (invoiceData.reference && invoiceData.reference.trim()) {
+    result = result.replace(/(<div class="reference-info" id="referenceInfo">)[\s\S]*?(<\/div>)/, `$1${invoiceData.reference}$2`)
+  } else {
+    // Hide the reference section if no reference
+    result = result.replace(/(<div class="reference-info" id="referenceInfo">)[\s\S]*?(<\/div>)/, `$1$2`)
+    result = result.replace(/<div class="reference-info" id="referenceInfo"><\/div>/, '<div class="reference-info" id="referenceInfo" style="display: none;"></div>')
   }
   
   // Payment Information

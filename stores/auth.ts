@@ -22,6 +22,8 @@ export const useAuthStore = defineStore('auth', {
     user: null as User | null,
     isAuthenticated: false,
     token: null as string | null,
+    isInitializing: false,
+    hasInitialized: false,
   }),
 
   getters: {
@@ -122,13 +124,27 @@ export const useAuthStore = defineStore('auth', {
         
         return response.user
       } catch (error) {
-        // Token is invalid, logout
-        this.logout()
+        // Token is invalid, clear auth state but don't redirect
+        this.user = null
+        this.token = null
+        this.isAuthenticated = false
+        
+        if (process.client) {
+          localStorage.removeItem('auth-token')
+          localStorage.removeItem('auth-user')
+        }
+        
         return null
       }
     },
 
     async initializeAuth() {
+      if (this.hasInitialized) {
+        return
+      }
+      
+      this.isInitializing = true
+      
       if (process.client) {
         const token = localStorage.getItem('auth-token')
         const userData = localStorage.getItem('auth-user')
@@ -138,16 +154,26 @@ export const useAuthStore = defineStore('auth', {
             const user = JSON.parse(userData)
             this.token = token
             this.user = user
-            this.isAuthenticated = true
             
             // Validate token by fetching current user
             await this.fetchCurrentUser()
           } catch (error) {
-            console.error('Failed to parse user data from localStorage:', error)
-            this.logout()
+            this.user = null
+            this.token = null
+            this.isAuthenticated = false
+            
+            if (process.client) {
+              localStorage.removeItem('auth-token')
+              localStorage.removeItem('auth-user')
+            }
           }
+        } else {
+          this.isAuthenticated = false
         }
       }
+      
+      this.isInitializing = false
+      this.hasInitialized = true
     },
   },
 })

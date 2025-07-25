@@ -246,4 +246,4 @@ InvoiceSchema.index({ createdBy: 1 })
 InvoiceSchema.index({ date: -1 })
 InvoiceSchema.index({ 'customer.name': 'text' })
 
-export default mongoose.models.Invoice || mongoose.model<IInvoice>('Invoice', InvoiceSchema)
+export default (mongoose.models && mongoose.models.Invoice) || mongoose.model<IInvoice>('Invoice', InvoiceSchema)
