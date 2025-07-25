@@ -142,11 +142,6 @@ const handleLogin = async () => {
 
 // Handle redirect when already authenticated
 onMounted(async () => {
-  console.log('🔑 LOGIN PAGE: onMounted')
-  console.log('🔑 LOGIN PAGE: Auth state:', authStore.isAuthenticated)
-  console.log('🔑 LOGIN PAGE: Current route:', router.currentRoute.value.fullPath)
-  console.log('🔑 LOGIN PAGE: Query params:', router.currentRoute.value.query)
-  console.log('🔑 LOGIN PAGE: Redirect param:', router.currentRoute.value.query.redirect)
   
   // Wait a bit for any pending auth initialization
   await nextTick()
@@ -154,20 +149,15 @@ onMounted(async () => {
   if (authStore.isAuthenticated) {
     const redirect = router.currentRoute.value.query.redirect as string
     const targetPath = redirect ? decodeURIComponent(redirect) : '/dashboard'
-    console.log('🔑 LOGIN PAGE: Already authenticated, redirecting to:', targetPath)
     navigateTo(targetPath)
   }
 })
 
 // Also watch for auth state changes in case auth completes after mount
 watch(() => authStore.isAuthenticated, (isAuthenticated, oldValue) => {
-  console.log('🔑 LOGIN PAGE: Auth state changed from', oldValue, 'to', isAuthenticated)
   if (isAuthenticated && !oldValue) {
-    console.log('🔑 LOGIN PAGE: Current route during auth change:', router.currentRoute.value.fullPath)
-    console.log('🔑 LOGIN PAGE: Query during auth change:', router.currentRoute.value.query)
     const redirect = router.currentRoute.value.query.redirect as string
     const targetPath = redirect ? decodeURIComponent(redirect) : '/dashboard'
-    console.log('🔑 LOGIN PAGE: Auth became true, redirecting to:', targetPath)
     navigateTo(targetPath)
   }
 })
