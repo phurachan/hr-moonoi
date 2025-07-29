@@ -129,8 +129,8 @@ function transformTimesheetToInvoice(data: any, query: any) {
   
   return {
     company: {
-      nameTh: "บริษัท หมูน้อย ฟอร์เวิร์ด จำกัด (สำนักงานใหญ่)",
-      nameEn: "Moonoi Forward Co., Ltd.",
+      nameTh: "บริษัท คอร์ดเอไอเทค จำกัด (สำนักงานใหญ่)",
+      nameEn: "Claude AI Tech Co., Ltd.",
       address: "99/101 ม.พิมุกต์ 1 เฟส 5 ซอย 6 ตำบล สันทรายน้อย อำเภอสันทราย เชียงใหม่ 50210<br>Tel. 085-396-7806, 097-954-8922 Tax ID: 0505562001590",
       tel: "085-396-7806, 097-954-8922",
       taxId: "0505562001590"
@@ -154,7 +154,7 @@ function transformTimesheetToInvoice(data: any, query: any) {
     },
     reference: `* รายงานการทำงาน ระหว่างวันที่ ${startDate} ถึง ${endDate} จำนวน ${data.summary?.totalHours || 0} ชั่วโมง`,
     payment: {
-      companyName: "Moonoi Forward Co., Ltd.",
+      companyName: "Claude AI Tech Co., Ltd.",
       accountNumber: "051-8-44336-4",
       bankInfo: "Kasikorn Bank: Central Festival Chiang Mai Branch"
     },

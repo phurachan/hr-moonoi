@@ -331,7 +331,7 @@
                 v-model="invoiceData.company.nameTh"
                 type="text" 
                 class="input input-bordered bg-gray-700 text-white"
-                placeholder="บริษัท หมูน้อย ฟอร์เวิร์ด จำกัด"
+                placeholder="บริษัท คอร์ดเอไอเทค จำกัด"
               />
             </div>
             <div class="form-control">
@@ -342,7 +342,7 @@
                 v-model="invoiceData.company.nameEn"
                 type="text" 
                 class="input input-bordered bg-gray-700 text-white"
-                placeholder="Moonoi Forward Co., Ltd."
+                placeholder="Claude AI Tech Co., Ltd."
               />
             </div>
             <div class="form-control">
@@ -493,26 +493,17 @@
     </div>
 
     <!-- Invoice Preview Modal -->
-    <dialog id="preview-modal" class="modal">
-      <div class="modal-box max-w-4xl bg-white text-black" v-if="showPreview">
-        <div class="sticky top-0 bg-white z-10 pb-4 border-b mb-4">
-          <div class="flex justify-between items-center">
-            <h3 class="font-bold text-lg text-black">Invoice Preview</h3>
-            <button class="btn btn-sm btn-circle btn-ghost" @click="closePreview">✕</button>
-          </div>
-        </div>
-        
-        <div id="invoice-preview-content" class="invoice-preview-content" v-html="previewHTML"></div>
-        
-        <div class="modal-action sticky bottom-0 bg-white pt-4 border-t">
-          <button class="btn btn-primary" @click="generatePDF">Generate PDF</button>
-          <button class="btn" @click="closePreview">Close</button>
-        </div>
-      </div>
-      <form method="dialog" class="modal-backdrop">
-        <button @click="closePreview">close</button>
-      </form>
-    </dialog>
+    <ModalsInvoicePreviewModal
+      :is-open="showPreview"
+      :invoice-data="previewInvoiceData"
+      :show-actions="true"
+      :use-html-preview="true"
+      modal-id="invoice-preview-modal"
+      title="Invoice Preview"
+      @close="closePreview"
+      @pdf-generated="onPDFGenerated"
+      @error="onPreviewError"
+    />
   </div>
 </template>
 
@@ -535,7 +526,7 @@ const saving = ref(false)
 const error = ref('')
 const success = ref('')
 const showPreview = ref(false)
-const previewHTML = ref('')
+const previewInvoiceData = ref(null)
 
 // Customer-related data
 const customers = ref([])
@@ -619,8 +610,8 @@ const loadColumnPreferences = () => {
 // Invoice data structure
 const invoiceData = reactive({
   company: {
-    nameTh: 'บริษัท หมูน้อย ฟอร์เวิร์ด จำกัด (สำนักงานใหญ่)',
-    nameEn: 'Moonoi Forward Co., Ltd.',
+    nameTh: 'บริษัท คอร์ดเอไอเทค จำกัด (สำนักงานใหญ่)',
+    nameEn: 'Claude AI Tech Co., Ltd.',
     address: '99/101 ม.พิมุกต์ 1 เฟส 5 ซอย 6 ตำบล สันทรายน้อย อำเภอสันทราย เชียงใหม่ 50210',
     tel: '085-396-7806, 097-954-8922',
     taxId: '0505562001590'
@@ -647,7 +638,7 @@ const invoiceData = reactive({
   ],
   reference: '',
   payment: {
-    companyName: 'Moonoi Forward Co., Ltd.',
+    companyName: 'Claude AI Tech Co., Ltd.',
     accountNumber: '051-8-44336-4',
     bankInfo: 'Kasikorn Bank: Central Festival Chiang Mai Branch'
   },
@@ -807,11 +798,8 @@ async function previewInvoice() {
   }
 
   try {
-    // Use embedded template instead of fetching
-    let template = getInvoiceTemplate()
-
-    // Prepare invoice data with calculated totals
-    const invoiceDataWithTotals = {
+    // Prepare invoice data with calculated totals for the modal
+    previewInvoiceData.value = {
       ...invoiceData,
       totals: {
         subtotal: subtotal.value,
@@ -820,392 +808,27 @@ async function previewInvoice() {
         amountInWords: amountInWords.value
       }
     }
-
-    // Replace template placeholders with actual data
-    template = populateTemplate(template, invoiceDataWithTotals)
     
-    previewHTML.value = template
     showPreview.value = true
-    
-    // Show modal
-    const modal = document.getElementById('preview-modal') as HTMLDialogElement
-    modal.showModal()
   } catch (err) {
-    console.error('Error generating preview:', err)
-    error.value = 'Failed to generate preview'
-  }
-}
-
-function getInvoiceTemplate(): string {
-  return `<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ใบวางบิล/ใบแจ้งหนี้</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Sarabun', Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.4;
-            background: white;
-            color: #333;
-        }
-
-        .invoice-container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 15px;
-        }
-
-        .company-info {
-            flex: 1;
-        }
-
-        .company-name-th {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .company-name-en {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .company-address {
-            font-size: 12px;
-            margin-bottom: 8px;
-            line-height: 1.5;
-        }
-
-        .logo {
-            width: 120px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .invoice-title {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .invoice-title h2 {
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-
-        .invoice-title .subtitle {
-            font-size: 16px;
-            color: #666;
-        }
-
-        .invoice-details {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-        }
-
-        .customer-info {
-            flex: 1;
-            padding-right: 20px;
-        }
-
-        .invoice-meta {
-            width: 200px;
-            border: 2px solid #333;
-            padding: 10px;
-        }
-
-        .invoice-meta div {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .items-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .items-table th,
-        .items-table td {
-            border: 1px solid #333;
-            padding: 8px;
-            text-align: center;
-        }
-
-        .items-table th {
-            background-color: #f5f5f5;
-            font-weight: bold;
-        }
-
-        .items-table .description {
-            text-align: left;
-        }
-
-        .totals {
-            margin-left: auto;
-            width: 300px;
-        }
-
-        .totals table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .totals td {
-            padding: 5px 10px;
-            border: 1px solid #333;
-        }
-
-        .totals .total-row {
-            font-weight: bold;
-            background-color: #f5f5f5;
-        }
-
-        .reference-info {
-            font-size: 12px;
-            margin: 10px 0;
-            font-style: italic;
-        }
-
-        .payment-info {
-            margin: 30px 0;
-            border: 1px solid #ccc;
-            padding: 15px;
-            background-color: #f9f9f9;
-        }
-
-        .payment-info h3 {
-            margin-bottom: 10px;
-        }
-
-        .signature-section {
-            margin-top: 50px;
-            text-align: right;
-        }
-
-        .signature-line {
-            border-bottom: 1px solid #333;
-            width: 200px;
-            margin: 20px 0 5px auto;
-        }
-
-        .amount-text {
-            font-size: 12px;
-            font-style: italic;
-            margin: 5px 0;
-        }
-
-        @media print {
-            .invoice-container {
-                box-shadow: none;
-                margin: 0;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="invoice-container">
-        <!-- Header -->
-        <div class="header">
-            <div class="company-info">
-                <div class="company-name-th">{{COMPANY_NAME}}</div>
-                <div class="company-name-en">{{COMPANY_NAME_EN}}</div>
-                <div class="company-address">{{COMPANY_ADDRESS}}<br>
-                    Tel. {{COMPANY_TEL}} {{COMPANY_EMAIL_SECTION}}</div>
-            </div>
-            <div class="logo">
-                <img src="/images/logo-moonoi.png" alt="Moonoi Forward Logo" />
-            </div>
-        </div>
-
-        <!-- Invoice Title -->
-        <div class="invoice-title">
-            <h2>ใบวางบิล/ใบแจ้งหนี้</h2>
-            <div class="subtitle">(BILLING NOTE/ INVOICE)</div>
-        </div>
-
-        <!-- Invoice Details -->
-        <div class="invoice-details">
-            <div class="customer-info">
-                <div><strong>ลูกค้า / Customer:</strong> {{CUSTOMER_NAME}}</div>
-                <div><strong>ที่อยู่/ Address:</strong></div>
-                <div>{{CUSTOMER_ADDRESS}}</div>
-                <div><strong>เบอร์โทรศัพท์/Tel :</strong> {{CUSTOMER_TEL}}</div>
-                {{CUSTOMER_TAX_ID_SECTION}}
-            </div>
-            <div class="invoice-meta">
-                <div>Date {{INVOICE_DATE}}</div>
-                <div>No. {{INVOICE_NUMBER}}</div>
-                <div>Due Date {{DUE_DATE}}</div>
-            </div>
-        </div>
-
-        <!-- Items Table -->
-        <table class="items-table">
-            <thead>
-                <tr>
-                    <th style="width: 10%">ลำดับ</th>
-                    <th style="width: 50%">รายละเอียด</th>
-                    <th style="width: 10%">จำนวน</th>
-                    <th style="width: 15%">ราคาต่อหน่วย</th>
-                    <th style="width: 15%">ราคา</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{INVOICE_ITEMS}}
-            </tbody>
-        </table>
-
-        {{REFERENCE_SECTION}}
-
-        <!-- Totals -->
-        <div class="totals">
-            <table>
-                <tr>
-                    <td>จำนวนเงิน</td>
-                    <td style="text-align: right">{{SUBTOTAL}}</td>
-                </tr>
-                <tr>
-                    <td>ภาษีมูลค่าเพิ่ม(7%)</td>
-                    <td style="text-align: right">{{VAT}}</td>
-                </tr>
-                <tr class="total-row">
-                    <td>จำนวนเงินรวมทั้งสิ้น</td>
-                    <td style="text-align: right">{{TOTAL}}</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="amount-text">{{AMOUNT_IN_WORDS}}</div>
-
-        <!-- Payment Information -->
-        <div class="payment-info">
-            <h3>Payment:</h3>
-            <div><strong>{{PAYMENT_METHOD}}</strong></div>
-            <div>{{PAYMENT_TERMS}}</div>
-        </div>
-
-        <!-- Signature Section -->
-        <div class="signature-section">
-            <div>เสนอโดย</div>
-            <div class="signature-line"></div>
-            <div>({{SIGNER}})</div>
-            <div>ผู้มีอำนาจลงนาม</div>
-        </div>
-    </div>
-</body>
-</html>`
-}
-
-function populateTemplate(html: string, data: any): string {
-  let result = html
-
-  // Company Information
-  result = result.replace(/\{\{COMPANY_NAME\}\}/g, data.company?.name || '')
-  result = result.replace(/\{\{COMPANY_NAME_EN\}\}/g, data.company?.name || '')
-  result = result.replace(/\{\{COMPANY_ADDRESS\}\}/g, data.company?.address || '')
-  result = result.replace(/\{\{COMPANY_TEL\}\}/g, data.company?.tel || '')
-  result = result.replace(/\{\{COMPANY_EMAIL\}\}/g, data.company?.email || '')
-  
-  // Company email section (conditional)
-  const emailSection = data.company?.email ? `Email. ${data.company.email}` : ''
-  result = result.replace(/\{\{COMPANY_EMAIL_SECTION\}\}/g, emailSection)
-
-  // Customer Information  
-  result = result.replace(/\{\{CUSTOMER_NAME\}\}/g, data.customer?.name || '')
-  result = result.replace(/\{\{CUSTOMER_ADDRESS\}\}/g, data.customer?.address?.replace(/\n/g, '<br>') || '')
-  result = result.replace(/\{\{CUSTOMER_TEL\}\}/g, data.customer?.tel || '')
-  result = result.replace(/\{\{CUSTOMER_TAX_ID\}\}/g, data.customer?.taxId || '')
-  
-  // Customer Tax ID section (conditional)
-  const taxIdSection = data.customer?.taxId ? `<div><strong>Tax ID:</strong> ${data.customer.taxId}</div>` : ''
-  result = result.replace(/\{\{CUSTOMER_TAX_ID_SECTION\}\}/g, taxIdSection)
-
-  // Invoice Meta
-  result = result.replace(/\{\{INVOICE_DATE\}\}/g, formatDateForDisplay(data.invoice?.date) || '')
-  result = result.replace(/\{\{INVOICE_NUMBER\}\}/g, data.invoice?.number || '')
-  result = result.replace(/\{\{DUE_DATE\}\}/g, formatDateForDisplay(data.invoice?.dueDate) || '')
-
-  // Generate items table
-  let itemsHTML = ''
-  if (data.items && data.items.length > 0) {
-    itemsHTML = data.items.map((item: any, index: number) => `
-      <tr>
-        <td>${index + 1}</td>
-        <td class="description">${item.description || ''}</td>
-        <td>${item.quantity || ''}</td>
-        <td>${item.unitPrice ? Number(item.unitPrice).toLocaleString('th-TH') : ''}</td>
-        <td>${item.totalPrice ? Number(item.totalPrice).toLocaleString('th-TH') : ''}</td>
-      </tr>
-    `).join('')
-  }
-  result = result.replace(/\{\{INVOICE_ITEMS\}\}/g, itemsHTML)
-
-  // Totals
-  result = result.replace(/\{\{SUBTOTAL\}\}/g, data.totals?.subtotal ? Number(data.totals.subtotal).toLocaleString() : '0')
-  result = result.replace(/\{\{VAT\}\}/g, data.totals?.vat ? Number(data.totals.vat).toLocaleString() : '0')
-  result = result.replace(/\{\{TOTAL\}\}/g, data.totals?.total ? Number(data.totals.total).toLocaleString() : '0')
-  result = result.replace(/\{\{AMOUNT_IN_WORDS\}\}/g, data.totals?.amountInWords ? `(${data.totals.amountInWords})` : '')
-
-  // Reference
-  result = result.replace(/\{\{REFERENCE\}\}/g, data.reference || '')
-  
-  // Reference section (conditional)
-  const referenceSection = data.reference ? `<div class="reference-info">${data.reference}</div>` : ''
-  result = result.replace(/\{\{REFERENCE_SECTION\}\}/g, referenceSection)
-
-  // Payment
-  result = result.replace(/\{\{PAYMENT_METHOD\}\}/g, data.payment?.method || '')
-  result = result.replace(/\{\{PAYMENT_TERMS\}\}/g, data.payment?.terms || '')
-
-  // Signer
-  result = result.replace(/\{\{SIGNER\}\}/g, data.signer || '')
-
-  return result
-}
-
-function formatDateForDisplay(dateString: string): string {
-  if (!dateString) return ''
-  try {
-    return new Date(dateString).toLocaleDateString('th-TH')
-  } catch {
-    return dateString
+    console.error('Error preparing preview:', err)
+    error.value = 'Failed to prepare preview'
   }
 }
 
 function closePreview() {
   showPreview.value = false
-  const modal = document.getElementById('preview-modal') as HTMLDialogElement
-  modal.close()
+  previewInvoiceData.value = null
+}
+
+function onPDFGenerated(blob: Blob) {
+  success.value = 'PDF generated successfully!'
+  setTimeout(() => success.value = '', 3000)
+}
+
+function onPreviewError(message: string) {
+  error.value = message
+  setTimeout(() => error.value = '', 5000)
 }
 
 async function generatePDF() {
@@ -1306,8 +929,8 @@ function clearForm() {
   // Reset all form data except company defaults
   Object.assign(invoiceData, {
     company: {
-      nameTh: 'บริษัท หมูน้อย ฟอร์เวิร์ด จำกัด (สำนักงานใหญ่)',
-      nameEn: 'Moonoi Forward Co., Ltd.',
+      nameTh: 'บริษัท คอร์ดเอไอเทค จำกัด (สำนักงานใหญ่)',
+      nameEn: 'Claude AI Tech Co., Ltd.',
       address: '99/101 ม.พิมุกต์ 1 เฟส 5 ซอย 6 ตำบล สันทรายน้อย อำเภอสันทราย เชียงใหม่ 50210',
       tel: '085-396-7806, 097-954-8922',
       taxId: '0505562001590'
@@ -1332,7 +955,7 @@ function clearForm() {
     }],
     reference: '',
     payment: {
-      companyName: 'Moonoi Forward Co., Ltd.',
+      companyName: 'Claude AI Tech Co., Ltd.',
       accountNumber: '051-8-44336-4',
       bankInfo: 'Kasikorn Bank: Central Festival Chiang Mai Branch'
     },
