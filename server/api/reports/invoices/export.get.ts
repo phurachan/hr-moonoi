@@ -250,8 +250,8 @@ async function generatePDF(data: any, query: any, event: any) {
   const fs = await import('fs')
   const path = await import('path')
   
-  // Read the template file
-  const templatePath = path.resolve(process.cwd(), 'server/template/invoice.html')
+  // Read the template file from public directory
+  const templatePath = path.resolve(process.cwd(), 'public/invoice.html')
   let htmlContent = fs.readFileSync(templatePath, 'utf8')
   
   // Transform timesheet data to invoice format

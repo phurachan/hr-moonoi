@@ -5,8 +5,8 @@ export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
     
-    // Read the invoice HTML template
-    const templatePath = resolve(process.cwd(), 'server/template/invoice.html')
+    // Read the invoice HTML template from public directory
+    const templatePath = resolve(process.cwd(), 'public/invoice.html')
     let htmlContent = readFileSync(templatePath, 'utf8')
     
     // Use the same transformation logic from the export endpoint
