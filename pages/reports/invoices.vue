@@ -1,10 +1,10 @@
 <template>
-  <div class="container mx-auto px-4 py-8 bg-gray-900 min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-white">Invoice Management</h1>
-        <p class="text-gray-300 mt-2">View and manage all invoices</p>
+        <h1 class="text-3xl font-bold">Invoice Management</h1>
+        <p class="text-base-content/70 mt-2">View and manage all invoices</p>
       </div>
       <div class="flex gap-4">
         <NuxtLink to="/invoices/create" class="btn btn-primary">
@@ -23,17 +23,17 @@
     </div>
 
     <!-- Filters and Search -->
-    <div class="bg-gray-800 rounded-lg shadow p-6 mb-8">
+    <div class="bg-base-100 rounded-lg shadow p-6 mb-8">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <!-- Search -->
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Search</span>
+            <span class="label-text text-base-content">Search</span>
           </label>
           <input 
             v-model="filters.search"
             type="text" 
-            class="input input-bordered bg-gray-700 text-white"
+            class="input input-bordered bg-base-200 text-base-content"
             placeholder="Search invoices..."
             @input="debouncedSearch"
           />
@@ -42,11 +42,11 @@
         <!-- Status Filter -->
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Status</span>
+            <span class="label-text text-base-content">Status</span>
           </label>
           <select 
             v-model="filters.status"
-            class="select select-bordered bg-gray-700 text-white"
+            class="select select-bordered bg-base-200 text-base-content"
             @change="fetchInvoices"
           >
             <option value="">All Status</option>
@@ -97,27 +97,27 @@
     </div>
 
     <!-- Invoice Table -->
-    <div v-else-if="invoices.length > 0" class="bg-gray-800 rounded-lg shadow overflow-hidden">
+    <div v-else-if="invoices.length > 0" class="bg-base-100 rounded-lg shadow overflow-hidden">
       <div class="overflow-x-auto">
         <table class="table w-full">
           <thead>
-            <tr class="bg-gray-700">
-              <th class="text-white">Invoice #</th>
-              <th class="text-white">Customer</th>
-              <th class="text-white">Date</th>
-              <th class="text-white">Due Date</th>
-              <th class="text-white">Amount</th>
-              <th class="text-white">Status</th>
-              <th class="text-white">Actions</th>
+            <tr class="bg-base-200">
+              <th class="text-base-content">Invoice #</th>
+              <th class="text-base-content">Customer</th>
+              <th class="text-base-content">Date</th>
+              <th class="text-base-content">Due Date</th>
+              <th class="text-base-content">Amount</th>
+              <th class="text-base-content">Status</th>
+              <th class="text-base-content">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="invoice in invoices" :key="invoice.id" class="hover:bg-gray-700">
-              <td class="text-gray-300 font-mono">{{ invoice.invoiceNumber }}</td>
-              <td class="text-gray-300">{{ invoice.customer.name }}</td>
-              <td class="text-gray-300">{{ formatDate(invoice.date) }}</td>
-              <td class="text-gray-300">{{ formatDate(invoice.dueDate) }}</td>
-              <td class="text-gray-300 font-semibold">{{ formatAmount(invoice.totals.total) }}</td>
+            <tr v-for="invoice in invoices" :key="invoice.id" class="hover:bg-base-200">
+              <td class="text-base-content font-mono">{{ invoice.invoiceNumber }}</td>
+              <td class="text-base-content">{{ invoice.customer.name }}</td>
+              <td class="text-base-content">{{ formatDate(invoice.date) }}</td>
+              <td class="text-base-content">{{ formatDate(invoice.dueDate) }}</td>
+              <td class="text-base-content font-semibold">{{ formatAmount(invoice.totals.total) }}</td>
               <td>
                 <div class="badge" :class="getStatusBadgeClass(invoice.status)">
                   {{ invoice.status }}
@@ -161,7 +161,7 @@
       </div>
 
       <!-- Pagination -->
-      <div v-if="pagination.totalPages > 1" class="px-6 py-4 border-t border-gray-600">
+      <div v-if="pagination.totalPages > 1" class="px-6 py-4 border-t border-base-300">
         <BasePagination
           :currentPage="pagination.currentPage"
           :totalPages="pagination.totalPages"
@@ -173,11 +173,11 @@
     </div>
 
     <!-- Empty State -->
-    <div v-else class="bg-gray-800 rounded-lg shadow p-12 text-center">
+    <div v-else class="bg-base-100 rounded-lg shadow p-12 text-center">
       <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
       </svg>
-      <h3 class="mt-2 text-lg font-medium text-white">No invoices found</h3>
+      <h3 class="mt-2 text-lg font-medium text-base-content">No invoices found</h3>
       <p class="mt-1 text-gray-400">Get started by creating your first invoice.</p>
       <div class="mt-6">
         <NuxtLink to="/invoices/create" class="btn btn-primary">

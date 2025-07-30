@@ -1,12 +1,12 @@
 <template>
-  <div class="container mx-auto px-4 py-8 bg-gray-900 min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-white">
+        <h1 class="text-3xl font-bold">
           {{ isEditing ? 'Edit Leave Request' : 'Request Leave' }}
         </h1>
-        <p class="text-gray-300 mt-2">
+        <p class="text-base-content/70 mt-2">
           {{ isEditing ? 'Update your leave request details' : 'Submit a new leave request' }}
         </p>
       </div>
@@ -19,23 +19,23 @@
     </div>
 
     <!-- Leave Balance Summary -->
-    <div v-if="leavesStore.currentBalance && !isEditing" class="bg-gray-800 rounded-lg p-6 mb-8">
-      <h2 class="text-xl font-semibold text-white mb-4">Your Leave Balance</h2>
+    <div v-if="leavesStore.currentBalance && !isEditing" class="bg-base-100 rounded-lg p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-4">Your Leave Balance</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
         <div v-for="(balance, type) in leavesStore.currentBalance.leaveBalances" :key="type" class="text-center">
           <div class="text-2xl font-bold text-primary">{{ balance.remaining }}</div>
-          <div class="text-sm text-gray-400 capitalize">{{ type }}</div>
+          <div class="text-sm text-base-content/50 capitalize">{{ type }}</div>
         </div>
       </div>
     </div>
 
     <!-- Leave Request Form -->
-    <div class="bg-gray-800 rounded-lg p-6">
+    <div class="bg-base-100 rounded-lg p-6">
       <form @submit.prevent="submitRequest" class="space-y-6">
         <!-- Leave Type -->
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Leave Type *</span>
+            <span class="label-text text-base-content/70">Leave Type *</span>
           </label>
           <select 
             v-model="form.leaveType" 
@@ -62,14 +62,14 @@
               class="checkbox checkbox-primary"
               @change="updateDates"
             />
-            <span class="label-text text-gray-300">Half Day Leave</span>
+            <span class="label-text text-base-content/70">Half Day Leave</span>
           </label>
         </div>
 
         <!-- Half Day Period -->
         <div v-if="form.isHalfDay" class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Half Day Period *</span>
+            <span class="label-text text-base-content/70">Half Day Period *</span>
           </label>
           <div class="flex gap-4">
             <label class="label cursor-pointer justify-start gap-2">
@@ -80,7 +80,7 @@
                 v-model="form.halfDayPeriod"
                 class="radio radio-primary"
               />
-              <span class="label-text text-gray-300">Morning</span>
+              <span class="label-text text-base-content/70">Morning</span>
             </label>
             <label class="label cursor-pointer justify-start gap-2">
               <input 
@@ -90,7 +90,7 @@
                 v-model="form.halfDayPeriod"
                 class="radio radio-primary"
               />
-              <span class="label-text text-gray-300">Afternoon</span>
+              <span class="label-text text-base-content/70">Afternoon</span>
             </label>
           </div>
         </div>
@@ -102,7 +102,7 @@
               v-model="form.startDate"
               label="Start Date"
               :required="true"
-              :disabled="form.isHalfDay"
+              :disabled="false"
               :error-message="errors.startDate"
               @change="updateDates"
             />
@@ -112,7 +112,7 @@
             <BaseInputDate
               v-model="form.endDate"
               label="End Date"
-              :required="true"
+              :required="!form.isHalfDay"
               :disabled="form.isHalfDay"
               :error-message="errors.endDate"
               @change="updateDates"
@@ -121,9 +121,9 @@
         </div>
 
         <!-- Total Days Display -->
-        <div v-if="totalDays > 0" class="bg-gray-700 rounded-lg p-4">
+        <div v-if="totalDays > 0" class="bg-base-200 rounded-lg p-4">
           <div class="flex items-center justify-between">
-            <span class="text-gray-300">Total Leave Days:</span>
+            <span class="text-base-content/70">Total Leave Days:</span>
             <span class="text-xl font-bold text-primary">
               {{ totalDays }} {{ totalDays === 1 ? 'day' : 'days' }}
             </span>
@@ -132,7 +132,7 @@
           <!-- Balance Check -->
           <div v-if="form.leaveType && leavesStore.currentBalance && form.leaveType !== 'unpaid'" class="mt-2">
             <div class="flex items-center justify-between text-sm">
-              <span class="text-gray-400">Available Balance:</span>
+              <span class="text-base-content/50">Available Balance:</span>
               <span 
                 :class="hasEnoughBalance ? 'text-green-400' : 'text-red-400'"
               >
@@ -151,7 +151,7 @@
         <!-- Reason -->
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Reason for Leave *</span>
+            <span class="label-text text-base-content/70">Reason for Leave *</span>
           </label>
           <textarea 
             v-model="form.reason"
@@ -162,7 +162,7 @@
             required
           ></textarea>
           <label class="label">
-            <span class="label-text-alt text-gray-400">{{ form.reason.length }}/500 characters</span>
+            <span class="label-text-alt text-base-content/50">{{ form.reason.length }}/500 characters</span>
             <span v-if="errors.reason" class="label-text-alt text-red-400">{{ errors.reason }}</span>
           </label>
         </div>
@@ -170,7 +170,7 @@
         <!-- Emergency Contact -->
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Emergency Contact</span>
+            <span class="label-text text-base-content/70">Emergency Contact</span>
           </label>
           <input 
             type="text" 
@@ -179,7 +179,7 @@
             placeholder="Emergency contact name and phone number"
           />
           <label class="label">
-            <span class="label-text-alt text-gray-400">Optional - Recommended for longer leaves</span>
+            <span class="label-text-alt text-base-content/50">Optional - Recommended for longer leaves</span>
           </label>
         </div>
 
@@ -259,7 +259,7 @@ const hasEnoughBalance = computed(() => {
 const isFormValid = computed(() => {
   return form.leaveType && 
          form.startDate && 
-         form.endDate && 
+         (form.isHalfDay || form.endDate) && 
          form.reason.trim() && 
          totalDays.value > 0 &&
          (!form.isHalfDay || form.halfDayPeriod) &&
@@ -279,20 +279,24 @@ const validateDates = () => {
   errors.startDate = ''
   errors.endDate = ''
   
-  if (!form.startDate || !form.endDate) return
+  if (!form.startDate) return
   
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   
   const startDate = new Date(form.startDate)
-  const endDate = new Date(form.endDate)
   
   if (startDate < today) {
     errors.startDate = 'Start date cannot be in the past'
   }
   
-  if (endDate < startDate) {
-    errors.endDate = 'End date cannot be before start date'
+  // Only validate end date if it's not half day and end date exists
+  if (!form.isHalfDay && form.endDate) {
+    const endDate = new Date(form.endDate)
+    
+    if (endDate < startDate) {
+      errors.endDate = 'End date cannot be before start date'
+    }
   }
 }
 
@@ -305,11 +309,19 @@ const validateForm = () => {
   // Validate required fields
   if (!form.leaveType) errors.leaveType = 'Please select a leave type'
   if (!form.startDate) errors.startDate = 'Start date is required'
-  if (!form.endDate) errors.endDate = 'End date is required'
+  // Only require end date if it's not half day
+  if (!form.isHalfDay && !form.endDate) errors.endDate = 'End date is required'
   if (!form.reason.trim()) errors.reason = 'Reason is required'
   
-  // Validate dates
-  validateDates()
+  // For half day, validate that half day period is selected
+  if (form.isHalfDay && !form.halfDayPeriod) {
+    errors.startDate = 'Please select half day period'
+  }
+  
+  // Validate dates only if we have the required dates
+  if (form.startDate && (form.isHalfDay || form.endDate)) {
+    validateDates()
+  }
   
   // Check leave balance
   if (form.leaveType && form.leaveType !== 'unpaid' && !hasEnoughBalance.value) {

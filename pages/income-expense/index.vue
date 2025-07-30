@@ -1,10 +1,10 @@
 <template>
-  <div class="container mx-auto px-4 py-8 bg-gray-900 min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-white">Income/Expense Management</h1>
-        <p class="text-gray-300 mt-2">Track and manage income and expense records</p>
+        <h1 class="text-3xl font-bold text-base-content">Income/Expense Management</h1>
+        <p class="text-base-content mt-2">Track and manage income and expense records</p>
       </div>
       <div class="flex gap-2">
         <!-- Export Dropdown -->
@@ -38,17 +38,17 @@
     <IncomeExpenseSummaryCards :summary="summary" />
 
     <!-- Filters and Search -->
-    <div class="bg-gray-800 rounded-lg shadow p-6 mb-8">
+    <div class="bg-base-100 rounded-lg shadow p-6 mb-8">
       <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
         <!-- Search -->
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Search</span>
+            <span class="label-text text-base-content">Search</span>
           </label>
           <input 
             v-model="filters.search"
             type="text" 
-            class="input input-bordered bg-gray-700 text-white"
+            class="input input-bordered bg-base-200 text-base-content"
             placeholder="Search description..."
             @input="debouncedSearch"
           />
@@ -57,11 +57,11 @@
         <!-- Type Filter -->
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Type</span>
+            <span class="label-text text-base-content">Type</span>
           </label>
           <select 
             v-model="filters.type"
-            class="select select-bordered bg-gray-700 text-white"
+            class="select select-bordered bg-base-200 text-base-content"
             @change="fetchRecords"
           >
             <option value="">All Types</option>
@@ -73,11 +73,11 @@
         <!-- Category Filter -->
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Category</span>
+            <span class="label-text text-base-content">Category</span>
           </label>
           <select 
             v-model="filters.category"
-            class="select select-bordered bg-gray-700 text-white"
+            class="select select-bordered bg-base-200 text-base-content"
             @change="fetchRecords"
           >
             <option value="">All Categories</option>
@@ -117,24 +117,24 @@
     </div>
 
     <!-- Records Table -->
-    <div v-else-if="records.length > 0" class="bg-gray-800 rounded-lg shadow overflow-hidden">
+    <div v-else-if="records.length > 0" class="bg-base-100 rounded-lg shadow overflow-hidden">
       <div class="overflow-x-auto">
         <table class="table w-full">
           <thead>
-            <tr class="bg-gray-700">
-              <th class="text-white">Date</th>
-              <th class="text-white">Description</th>
-              <th class="text-white">Type</th>
-              <th class="text-white">Category</th>
-              <th class="text-white">Amount</th>
-              <th class="text-white">Note</th>
-              <th class="text-white">Actions</th>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Note</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="record in records" :key="record.id" class="hover:bg-gray-700">
-              <td class="text-gray-300">{{ formatDate(record.date) }}</td>
-              <td class="text-gray-300">{{ record.description }}</td>
+            <tr v-for="record in records" :key="record.id" class="hover:bg-base-200">
+              <td class="text-base-content">{{ formatDate(record.date) }}</td>
+              <td class="text-base-content">{{ record.description }}</td>
               <td>
                 <div class="badge" :class="record.type === 'income' ? 'badge-success' : 'badge-error'">
                   {{ record.type }}
@@ -145,10 +145,10 @@
                   {{ record.category }}
                 </div>
               </td>
-              <td class="text-gray-300 font-semibold" :class="record.type === 'income' ? 'text-green-400' : 'text-red-400'">
+              <td class="text-base-content font-semibold" :class="record.type === 'income' ? 'text-green-400' : 'text-red-400'">
                 {{ formatAmount(record.amount) }}
               </td>
-              <td class="text-gray-300 text-sm">{{ record.note || '-' }}</td>
+              <td class="text-base-content text-sm">{{ record.note || '-' }}</td>
               <td>
                 <div class="flex gap-2">
                   <button 
@@ -177,7 +177,7 @@
       </div>
 
       <!-- Pagination -->
-      <div v-if="pagination.totalPages > 1" class="px-6 py-4 border-t border-gray-600">
+      <div v-if="pagination.totalPages > 1" class="px-6 py-4 border-t border-base-300">
         <BasePagination
           :currentPage="pagination.currentPage"
           :totalPages="pagination.totalPages"
@@ -189,12 +189,12 @@
     </div>
 
     <!-- Empty State -->
-    <div v-else class="bg-gray-800 rounded-lg shadow p-12 text-center">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div v-else class="bg-base-100 rounded-lg shadow p-12 text-center">
+      <svg class="mx-auto h-12 w-12 text-base-content/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
       </svg>
-      <h3 class="mt-2 text-lg font-medium text-white">No records found</h3>
-      <p class="mt-1 text-gray-400">Get started by adding your first income or expense record.</p>
+      <h3 class="mt-2 text-lg font-medium text-base-content">No records found</h3>
+      <p class="mt-1 text-base-content/60">Get started by adding your first income or expense record.</p>
       <div class="mt-6">
         <button @click="openCreateModal" class="btn btn-primary">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -207,7 +207,7 @@
 
     <!-- Create/Edit Modal -->
     <dialog id="record-modal" class="modal">
-      <div class="modal-box bg-gray-800 text-white">
+      <div class="modal-box bg-base-100 text-base-content">
         <div class="flex justify-between items-center mb-4">
           <h3 class="font-bold text-lg">{{ editingRecord ? 'Edit Record' : 'Add New Record' }}</h3>
           <button class="btn btn-sm btn-circle btn-ghost" @click="closeModal">✕</button>
@@ -224,14 +224,14 @@
             
             <div class="form-control">
               <label class="label">
-                <span class="label-text text-gray-300">Amount *</span>
+                <span class="label-text text-base-content">Amount *</span>
               </label>
               <input 
                 v-model.number="formData.amount"
                 type="number" 
                 step="0.01"
                 min="0"
-                class="input input-bordered bg-gray-700 text-white"
+                class="input input-bordered bg-base-200 text-base-content"
                 placeholder="0.00"
                 required
               />
@@ -240,12 +240,12 @@
           
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Description *</span>
+              <span class="label-text text-base-content">Description *</span>
             </label>
             <input 
               v-model="formData.description"
               type="text" 
-              class="input input-bordered bg-gray-700 text-white"
+              class="input input-bordered bg-base-200 text-base-content"
               placeholder="Enter description..."
               required
             />
@@ -254,11 +254,11 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
               <label class="label">
-                <span class="label-text text-gray-300">Type *</span>
+                <span class="label-text text-base-content">Type *</span>
               </label>
               <select 
                 v-model="formData.type"
-                class="select select-bordered bg-gray-700 text-white"
+                class="select select-bordered bg-base-200 text-base-content"
                 required
               >
                 <option value="">Select type</option>
@@ -269,11 +269,11 @@
             
             <div class="form-control">
               <label class="label">
-                <span class="label-text text-gray-300">Category *</span>
+                <span class="label-text text-base-content">Category *</span>
               </label>
               <select 
                 v-model="formData.category"
-                class="select select-bordered bg-gray-700 text-white"
+                class="select select-bordered bg-base-200 text-base-content"
                 required
               >
                 <option value="">Select category</option>
@@ -285,11 +285,11 @@
           
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Note</span>
+              <span class="label-text text-base-content">Note</span>
             </label>
             <textarea 
               v-model="formData.note"
-              class="textarea textarea-bordered bg-gray-700 text-white"
+              class="textarea textarea-bordered bg-base-200 text-base-content"
               rows="3"
               placeholder="Additional notes (optional)..."
             ></textarea>
@@ -308,19 +308,19 @@
 
     <!-- Export Modal -->
     <dialog id="export-modal" class="modal">
-      <div class="modal-box bg-gray-800">
-        <h3 class="font-bold text-lg text-white mb-4">Export Income/Expense Data</h3>
+      <div class="modal-box bg-base-100">
+        <h3 class="font-bold text-lg text-base-content mb-4">Export Income/Expense Data</h3>
         
         <form @submit.prevent="handleExport" class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Export Format -->
             <div class="form-control">
               <label class="label">
-                <span class="label-text text-gray-300">Format *</span>
+                <span class="label-text text-base-content">Format *</span>
               </label>
               <select 
                 v-model="exportData.format"
-                class="select select-bordered bg-gray-700 text-white"
+                class="select select-bordered bg-base-200 text-base-content"
                 required
               >
                 <option value="csv">CSV</option>
@@ -331,11 +331,11 @@
             <!-- Date Range Type -->
             <div class="form-control">
               <label class="label">
-                <span class="label-text text-gray-300">Date Range *</span>
+                <span class="label-text text-base-content">Date Range *</span>
               </label>
               <select 
                 v-model="exportData.dateRange"
-                class="select select-bordered bg-gray-700 text-white"
+                class="select select-bordered bg-base-200 text-base-content"
                 @change="handleDateRangeChange"
                 required
               >
@@ -351,11 +351,11 @@
           <div v-if="exportData.dateRange === 'specific-month'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
               <label class="label">
-                <span class="label-text text-gray-300">Month</span>
+                <span class="label-text text-base-content">Month</span>
               </label>
               <select 
                 v-model="exportData.month"
-                class="select select-bordered bg-gray-700 text-white"
+                class="select select-bordered bg-base-200 text-base-content"
               >
                 <option value="1">January</option>
                 <option value="2">February</option>
@@ -373,12 +373,12 @@
             </div>
             <div class="form-control">
               <label class="label">
-                <span class="label-text text-gray-300">Year</span>
+                <span class="label-text text-base-content">Year</span>
               </label>
               <input 
                 v-model="exportData.year"
                 type="number" 
-                class="input input-bordered bg-gray-700 text-white"
+                class="input input-bordered bg-base-200 text-base-content"
                 :min="2020"
                 :max="2030"
               />
@@ -403,11 +403,11 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="form-control">
               <label class="label">
-                <span class="label-text text-gray-300">Type</span>
+                <span class="label-text text-base-content">Type</span>
               </label>
               <select 
                 v-model="exportData.type"
-                class="select select-bordered bg-gray-700 text-white"
+                class="select select-bordered bg-base-200 text-base-content"
               >
                 <option value="all">All Types</option>
                 <option value="income">Income Only</option>
@@ -417,11 +417,11 @@
 
             <div class="form-control">
               <label class="label">
-                <span class="label-text text-gray-300">Category</span>
+                <span class="label-text text-base-content">Category</span>
               </label>
               <select 
                 v-model="exportData.category"
-                class="select select-bordered bg-gray-700 text-white"
+                class="select select-bordered bg-base-200 text-base-content"
               >
                 <option value="all">All Categories</option>
                 <option value="normal">Normal</option>
@@ -819,13 +819,3 @@ useHead({
 })
 </script>
 
-<style scoped>
-.table th {
-  background-color: rgb(55, 65, 81);
-  color: white;
-}
-
-.table td {
-  border-bottom: 1px solid rgb(75, 85, 99);
-}
-</style>

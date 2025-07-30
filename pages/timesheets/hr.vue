@@ -1,10 +1,10 @@
 <template>
-  <div class="container mx-auto px-4 py-8 bg-gray-900 min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-white">HR Timesheet Management</h1>
-        <p class="text-gray-300 mt-2">Review and manage all employee timesheets</p>
+        <h1 class="text-3xl font-bold">HR Timesheet Management</h1>
+        <p class="text-base-content/70 mt-2">Review and manage all employee timesheets</p>
       </div>
       <div class="flex gap-4">
         <NuxtLink to="/timesheets" class="btn btn-outline">
@@ -20,9 +20,9 @@
     <TimesheetsTimesheetStats class="mb-8" />
 
     <!-- Date Navigation -->
-    <div class="bg-gray-800 rounded-lg shadow p-6 mb-8">
+    <div class="bg-base-100 rounded-lg shadow p-6 mb-8">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold text-white">Date Navigation</h3>
+        <h3 class="text-lg font-semibold">Date Navigation</h3>
         <div class="flex gap-2">
           <button @click="goToToday" class="btn btn-outline btn-sm">Today</button>
           <button @click="viewMode = 'day'" class="btn btn-sm" :class="{ 'btn-primary': viewMode === 'day', 'btn-outline': viewMode !== 'day' }">Day</button>
@@ -37,7 +37,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
           </button>
-          <span class="text-lg font-semibold text-white">{{ currentDateText }}</span>
+          <span class="text-lg font-semibold">{{ currentDateText }}</span>
           <button @click="navigateDate(1)" class="btn btn-ghost btn-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -55,12 +55,12 @@
     </div>
 
     <!-- Filters -->
-    <div class="bg-gray-800 rounded-lg shadow p-6 mb-8">
-      <h3 class="text-lg font-semibold mb-4 text-white">Filters</h3>
+    <div class="bg-base-100 rounded-lg shadow p-6 mb-8">
+      <h3 class="text-lg font-semibold mb-4">Filters</h3>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Employee</span>
+            <span class="label-text text-base-content">Employee</span>
           </label>
           <select 
             v-model="filters.employeeId"
@@ -76,7 +76,7 @@
         
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Status</span>
+            <span class="label-text text-base-content">Status</span>
           </label>
           <select 
             v-model="filters.status"
@@ -93,7 +93,7 @@
         
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Category</span>
+            <span class="label-text text-base-content">Category</span>
           </label>
           <select 
             v-model="filters.category"
@@ -112,7 +112,7 @@
         
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Project</span>
+            <span class="label-text text-base-content">Project</span>
           </label>
           <input 
             v-model="filters.project"
@@ -127,64 +127,64 @@
 
     <!-- Summary Stats -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <div class="stat bg-gray-800 shadow rounded-lg">
+      <div class="stat bg-base-100 shadow rounded-lg">
         <div class="stat-figure text-primary">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
           </svg>
         </div>
-        <div class="stat-title text-gray-300">Active Employees</div>
+        <div class="stat-title text-base-content">Active Employees</div>
         <div class="stat-value text-primary">{{ activeEmployeesCount }}</div>
-        <div class="stat-desc text-gray-400">With timesheets today</div>
+        <div class="stat-desc text-base-content/60">With timesheets today</div>
       </div>
       
-      <div class="stat bg-gray-800 shadow rounded-lg">
+      <div class="stat bg-base-100 shadow rounded-lg">
         <div class="stat-figure text-info">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
         </div>
-        <div class="stat-title text-gray-300">Total Hours</div>
+        <div class="stat-title text-base-content">Total Hours</div>
         <div class="stat-value text-info">{{ totalHours.toFixed(1) }}h</div>
-        <div class="stat-desc text-gray-400">{{ currentDateText }}</div>
+        <div class="stat-desc text-base-content/60">{{ currentDateText }}</div>
       </div>
       
-      <div class="stat bg-gray-800 shadow rounded-lg">
+      <div class="stat bg-base-100 shadow rounded-lg">
         <div class="stat-figure text-warning">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
           </svg>
         </div>
-        <div class="stat-title text-gray-300">Pending Approvals</div>
+        <div class="stat-title text-base-content">Pending Approvals</div>
         <div class="stat-value text-warning">{{ pendingApprovalsCount }}</div>
-        <div class="stat-desc text-gray-400">Awaiting review</div>
+        <div class="stat-desc text-base-content/60">Awaiting review</div>
       </div>
       
-      <div class="stat bg-gray-800 shadow rounded-lg">
+      <div class="stat bg-base-100 shadow rounded-lg">
         <div class="stat-figure text-success">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
         </div>
-        <div class="stat-title text-gray-300">Approved</div>
+        <div class="stat-title text-base-content">Approved</div>
         <div class="stat-value text-success">{{ approvedCount }}</div>
-        <div class="stat-desc text-gray-400">Timesheets approved</div>
+        <div class="stat-desc text-base-content/60">Timesheets approved</div>
       </div>
     </div>
 
     <!-- Employee Timesheets -->
-    <div class="bg-gray-800 rounded-lg shadow overflow-hidden">
-      <div class="px-6 py-4 border-b border-gray-600">
-        <h3 class="text-lg font-semibold text-white">Employee Timesheets - {{ currentDateText }}</h3>
+    <div class="bg-base-100 rounded-lg shadow overflow-hidden">
+      <div class="px-6 py-4 border-b border-base-300">
+        <h3 class="text-lg font-semibold text-base-content">Employee Timesheets - {{ currentDateText }}</h3>
       </div>
       
       <div class="overflow-x-auto">
         <div v-if="loading" class="p-8 text-center">
           <div class="loading loading-spinner loading-lg"></div>
-          <p class="text-gray-400 mt-4">Loading timesheets...</p>
+          <p class="text-base-content/60 mt-4">Loading timesheets...</p>
         </div>
         
-        <div v-else-if="filteredTimesheets.length === 0" class="p-8 text-center text-gray-400">
+        <div v-else-if="filteredTimesheets.length === 0" class="p-8 text-center text-base-content/60">
           <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
           </svg>
@@ -196,7 +196,7 @@
           <div 
             v-for="timesheet in filteredTimesheets" 
             :key="timesheet.id"
-            class="bg-gray-700 rounded-lg p-6 border border-gray-600"
+            class="bg-base-200 rounded-lg p-6 border border-base-300"
           >
             <!-- Employee Header -->
             <div class="flex justify-between items-center mb-4">
@@ -207,8 +207,8 @@
                   </div>
                 </div>
                 <div>
-                  <h4 class="font-semibold text-white">{{ timesheet.employeeName }}</h4>
-                  <p class="text-sm text-gray-400">{{ timesheet.totalHours.toFixed(1) }} hours • {{ timesheet.tasks.length }} tasks</p>
+                  <h4 class="font-semibold text-base-content">{{ timesheet.employeeName }}</h4>
+                  <p class="text-sm text-base-content/60">{{ timesheet.totalHours.toFixed(1) }} hours • {{ timesheet.tasks.length }} tasks</p>
                 </div>
               </div>
               
@@ -226,7 +226,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
                     </svg>
                   </button>
-                  <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-gray-600 rounded-box w-52">
+                  <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                     <li v-if="timesheet.status === 'submitted'">
                       <a @click="approveTimesheet(timesheet.id)" class="text-green-400">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -262,16 +262,16 @@
               <div 
                 v-for="task in timesheet.tasks" 
                 :key="task.id || `${timesheet.id}-${task.title}`"
-                class="task-item p-3 rounded border border-gray-600 hover:border-gray-500 transition-colors"
+                class="task-item p-3 rounded border border-base-300 hover:border-base-content/30 transition-colors"
                 :class="getTaskCardClass(task.category)"
               >
                 <div class="flex justify-between items-start">
                   <div class="flex-1 min-w-0">
-                    <h5 class="font-medium text-white truncate">{{ task.title }}</h5>
-                    <p class="text-sm text-gray-300 mt-1" v-if="task.description">{{ task.description }}</p>
+                    <h5 class="font-medium text-base-content truncate">{{ task.title }}</h5>
+                    <p class="text-sm text-base-content mt-1" v-if="task.description">{{ task.description }}</p>
                     <div class="flex items-center gap-4 mt-2">
-                      <span class="text-xs text-gray-400">{{ task.startTime }} - {{ task.endTime }}</span>
-                      <span v-if="task.project" class="text-xs text-gray-400">{{ task.project }}</span>
+                      <span class="text-xs text-base-content/60">{{ task.startTime }} - {{ task.endTime }}</span>
+                      <span v-if="task.project" class="text-xs text-base-content/60">{{ task.project }}</span>
                       <span 
                         class="badge badge-xs"
                         :class="getCategoryBadgeClass(task.category)"
@@ -282,7 +282,7 @@
                     </div>
                   </div>
                   <div class="text-right ml-4">
-                    <div class="font-semibold text-white">{{ formatDuration(task.duration) }}</div>
+                    <div class="font-semibold text-base-content">{{ formatDuration(task.duration) }}</div>
                   </div>
                 </div>
               </div>
@@ -294,22 +294,22 @@
 
     <!-- Timesheet Details Modal -->
     <div v-if="selectedTimesheet" class="modal modal-open">
-      <div class="modal-box w-11/12 max-w-4xl bg-gray-800 text-white">
+      <div class="modal-box w-11/12 max-w-4xl bg-base-100 text-base-content">
         <h3 class="font-bold text-lg mb-4">
           {{ selectedTimesheet.employeeName }} - {{ formatDate(selectedTimesheet.date) }}
         </h3>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div class="stat bg-gray-700 rounded-lg">
-            <div class="stat-title text-gray-300">Total Hours</div>
+          <div class="stat bg-base-200 rounded-lg">
+            <div class="stat-title text-base-content">Total Hours</div>
             <div class="stat-value text-primary">{{ selectedTimesheet.totalHours.toFixed(1) }}h</div>
           </div>
-          <div class="stat bg-gray-700 rounded-lg">
-            <div class="stat-title text-gray-300">Total Tasks</div>
+          <div class="stat bg-base-200 rounded-lg">
+            <div class="stat-title text-base-content">Total Tasks</div>
             <div class="stat-value text-info">{{ selectedTimesheet.tasks.length }}</div>
           </div>
-          <div class="stat bg-gray-700 rounded-lg">
-            <div class="stat-title text-gray-300">Status</div>
+          <div class="stat bg-base-200 rounded-lg">
+            <div class="stat-title text-base-content">Status</div>
             <div class="stat-value" :class="getStatusColor(selectedTimesheet.status)">
               {{ selectedTimesheet.status }}
             </div>
@@ -320,16 +320,16 @@
           <div 
             v-for="task in selectedTimesheet.tasks" 
             :key="task.id || `${selectedTimesheet.id}-${task.title}`"
-            class="p-4 rounded border border-gray-600"
+            class="p-4 rounded border border-base-300"
             :class="getTaskCardClass(task.category)"
           >
             <div class="flex justify-between items-start">
               <div class="flex-1">
-                <h4 class="font-medium text-white">{{ task.title }}</h4>
-                <p class="text-sm text-gray-300 mt-1" v-if="task.description">{{ task.description }}</p>
+                <h4 class="font-medium text-base-content">{{ task.title }}</h4>
+                <p class="text-sm text-base-content mt-1" v-if="task.description">{{ task.description }}</p>
                 <div class="flex items-center gap-4 mt-2">
-                  <span class="text-sm text-gray-400">{{ task.startTime }} - {{ task.endTime }}</span>
-                  <span v-if="task.project" class="text-sm text-gray-400">{{ task.project }}</span>
+                  <span class="text-sm text-base-content/60">{{ task.startTime }} - {{ task.endTime }}</span>
+                  <span v-if="task.project" class="text-sm text-base-content/60">{{ task.project }}</span>
                   <span 
                     class="badge badge-sm"
                     :class="getCategoryBadgeClass(task.category)"
@@ -340,7 +340,7 @@
                 </div>
               </div>
               <div class="text-right">
-                <div class="font-semibold text-white">{{ formatDuration(task.duration) }}</div>
+                <div class="font-semibold text-base-content">{{ formatDuration(task.duration) }}</div>
               </div>
             </div>
           </div>
@@ -561,7 +561,7 @@ const getStatusBadgeClass = (status: string) => {
 
 const getStatusColor = (status: string) => {
   const colors = {
-    draft: 'text-gray-400',
+    draft: 'text-base-content/60',
     submitted: 'text-warning',
     approved: 'text-success',
     rejected: 'text-error'
@@ -575,7 +575,7 @@ const getTaskCardClass = (category: string) => {
     meeting: 'border-l-4 border-l-purple-500 bg-purple-900 bg-opacity-20',
     training: 'border-l-4 border-l-green-500 bg-green-900 bg-opacity-20',
     support: 'border-l-4 border-l-orange-500 bg-orange-900 bg-opacity-20',
-    admin: 'border-l-4 border-l-gray-500 bg-gray-700 bg-opacity-20',
+    admin: 'border-l-4 border-l-gray-500 bg-base-200 bg-opacity-20',
     other: 'border-l-4 border-l-yellow-500 bg-yellow-900 bg-opacity-20'
   }
   return classes[category] || classes.other

@@ -1,10 +1,10 @@
 <template>
-  <div class="container mx-auto px-4 py-8 bg-gray-900 min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-white">Timesheets</h1>
-        <p class="text-gray-300 mt-2">Track your daily tasks and time</p>
+        <h1 class="text-3xl font-bold">Timesheets</h1>
+        <p class="text-base-content/70 mt-2">Track your daily tasks and time</p>
       </div>
       <div class="flex gap-4">
         <!-- Week Navigation -->
@@ -17,7 +17,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
           </button>
-          <span class="text-lg font-semibold text-white">{{ currentWeekText }}</span>
+          <span class="text-lg font-semibold">{{ currentWeekText }}</span>
           <button 
             @click="navigateWeek(1)" 
             class="btn btn-ghost btn-sm"
@@ -36,13 +36,13 @@
     <TimesheetsTimesheetSummaryCards :employee-id="authStore.user?.id" class="mb-8" />
 
     <!-- Calendar Grid -->
-    <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+    <div class="bg-base-100 rounded-lg shadow-lg overflow-hidden">
       <!-- Calendar Header -->
-      <div class="grid grid-cols-7 bg-gray-700">
+      <div class="grid grid-cols-7 bg-base-200">
         <div 
           v-for="day in weekDays" 
           :key="day"
-          class="p-4 text-center font-semibold border-r border-gray-600 last:border-r-0 text-white"
+          class="p-4 text-center font-semibold border-r border-base-300 last:border-r-0"
         >
           {{ day }}
         </div>
@@ -53,27 +53,27 @@
         <div 
           v-for="date in currentWeekDates" 
           :key="date"
-          class="border-r border-gray-600 last:border-r-0 border-b border-gray-600"
+          class="border-r border-base-300 last:border-r-0 border-b border-base-300"
           :class="{ 
-            'bg-blue-900': isToday(date),
-            'bg-gray-700': isWeekend(date)
+            'bg-primary/10': isToday(date),
+            'bg-base-200': isWeekend(date)
           }"
         >
           <!-- Date Header -->
-          <div class="p-3 border-b border-gray-600">
+          <div class="p-3 border-b border-base-300">
             <div class="flex justify-between items-center">
               <span 
                 class="text-lg font-semibold"
                 :class="{ 
-                  'text-blue-400': isToday(date),
-                  'text-gray-500': isWeekend(date)
+                  'text-primary': isToday(date),
+                  'text-base-content/50': isWeekend(date)
                 }"
               >
                 {{ formatDateNumber(date) }}
               </span>
               <button 
                 @click="addTask(date)"
-                class="btn btn-ghost btn-xs text-gray-400 hover:text-primary"
+                class="btn btn-ghost btn-xs hover:text-primary"
                 :disabled="isWeekend(date)"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +81,7 @@
                 </svg>
               </button>
             </div>
-            <div class="text-sm text-gray-400 mt-1">
+            <div class="text-sm text-base-content/70 mt-1">
               {{ getDayTotalHours(date) }}h • {{ getTasksForDate(date).length }} tasks
             </div>
           </div>
@@ -91,16 +91,16 @@
             <div 
               v-for="(task, index) in getTasksForDate(date)" 
               :key="`${date}-${index}-${task.title}`"
-              class="task-card p-2 rounded border border-gray-600 hover:border-gray-500 cursor-pointer transition-colors"
+              class="task-card p-2 rounded border border-base-300 hover:border-base-content/30 cursor-pointer transition-colors"
               :class="getTaskCardClass(task.category)"
               @click="editTask(date, task)"
             >
               <div class="flex justify-between items-start">
                 <div class="flex-1 min-w-0">
-                  <h4 class="text-sm font-medium truncate text-white">{{ task.title }}</h4>
-                  <p class="text-xs text-gray-300 mt-1" v-if="task.project">{{ task.project }}</p>
+                  <h4 class="text-sm font-medium truncate">{{ task.title }}</h4>
+                  <p class="text-xs text-base-content/70 mt-1" v-if="task.project">{{ task.project }}</p>
                 </div>
-                <div class="text-xs text-gray-400 ml-2">
+                <div class="text-xs text-base-content/50 ml-2">
                   {{ task.startTime }} - {{ task.endTime }}
                 </div>
               </div>
@@ -113,14 +113,14 @@
                     {{ task.category }}
                   </span>
                 </div>
-                <span class="text-xs font-medium text-white">{{ formatDuration(task.duration) }}</span>
+                <span class="text-xs font-medium">{{ formatDuration(task.duration) }}</span>
               </div>
             </div>
             
             <!-- Empty State -->
             <div 
               v-if="getTasksForDate(date).length === 0"
-              class="text-center py-8 text-gray-500"
+              class="text-center py-8 text-base-content/50"
             >
               <svg class="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -136,7 +136,7 @@
           </div>
           
           <!-- Weekend Message -->
-          <div v-else class="p-4 text-center text-gray-500">
+          <div v-else class="p-4 text-center text-base-content/50">
             <svg class="w-8 h-8 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
             </svg>
@@ -411,7 +411,7 @@ const getTaskCardClass = (category: string) => {
     meeting: 'border-l-4 border-l-purple-500 bg-purple-900',
     training: 'border-l-4 border-l-green-500 bg-green-900',
     support: 'border-l-4 border-l-orange-500 bg-orange-900',
-    admin: 'border-l-4 border-l-gray-500 bg-gray-700',
+    admin: 'border-l-4 border-l-neutral bg-base-200',
     other: 'border-l-4 border-l-yellow-500 bg-yellow-900'
   }
   return classes[category] || classes.other

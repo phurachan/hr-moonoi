@@ -1,10 +1,10 @@
 <template>
-  <div class="container mx-auto px-4 py-8 bg-gray-900 min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-white">Leave Management</h1>
-        <p class="text-gray-300 mt-2">Manage employee leave requests and balances</p>
+        <h1 class="text-3xl font-bold">Leave Management</h1>
+        <p class="text-base-content/70 mt-2">Manage employee leave requests and balances</p>
       </div>
       <div class="flex gap-4">
         <button @click="exportLeaves" class="btn btn-outline">
@@ -18,48 +18,48 @@
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <div class="card bg-gray-800 shadow-lg">
+      <div class="card bg-base-100 shadow-lg">
         <div class="card-body">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-white">Pending</h3>
-              <p class="text-gray-400 text-sm">Awaiting approval</p>
+              <h3 class="text-lg font-semibold">Pending</h3>
+              <p class="text-base-content/60 text-sm">Awaiting approval</p>
             </div>
             <div class="text-3xl font-bold text-warning">{{ leavesStore.stats.overview.pendingLeaves }}</div>
           </div>
         </div>
       </div>
 
-      <div class="card bg-gray-800 shadow-lg">
+      <div class="card bg-base-100 shadow-lg">
         <div class="card-body">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-white">Approved</h3>
-              <p class="text-gray-400 text-sm">This year</p>
+              <h3 class="text-lg font-semibold">Approved</h3>
+              <p class="text-base-content/60 text-sm">This year</p>
             </div>
             <div class="text-3xl font-bold text-success">{{ leavesStore.stats.overview.approvedLeaves }}</div>
           </div>
         </div>
       </div>
 
-      <div class="card bg-gray-800 shadow-lg">
+      <div class="card bg-base-100 shadow-lg">
         <div class="card-body">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-white">Rejected</h3>
-              <p class="text-gray-400 text-sm">This year</p>
+              <h3 class="text-lg font-semibold">Rejected</h3>
+              <p class="text-base-content/60 text-sm">This year</p>
             </div>
             <div class="text-3xl font-bold text-error">{{ leavesStore.stats.overview.rejectedLeaves }}</div>
           </div>
         </div>
       </div>
 
-      <div class="card bg-gray-800 shadow-lg">
+      <div class="card bg-base-100 shadow-lg">
         <div class="card-body">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-white">Total</h3>
-              <p class="text-gray-400 text-sm">All requests</p>
+              <h3 class="text-lg font-semibold">Total</h3>
+              <p class="text-base-content/60 text-sm">All requests</p>
             </div>
             <div class="text-3xl font-bold text-primary">{{ leavesStore.stats.overview.totalLeaves }}</div>
           </div>
@@ -68,7 +68,7 @@
     </div>
 
     <!-- Tabs -->
-    <div class="tabs tabs-boxed mb-8 bg-gray-800">
+    <div class="tabs tabs-boxed mb-8 bg-base-200">
       <a 
         class="tab" 
         :class="{ 'tab-active': activeTab === 'requests' }" 
@@ -94,7 +94,7 @@
     <!-- Leave Requests Tab -->
     <div v-if="activeTab === 'requests'" class="space-y-6">
       <!-- Filters -->
-      <div class="bg-gray-800 rounded-lg p-4">
+      <div class="bg-base-100 rounded-lg p-4">
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div class="form-control">
             <input 
@@ -140,7 +140,7 @@
       </div>
 
       <!-- Requests Table -->
-      <div class="bg-gray-800 rounded-lg overflow-hidden">
+      <div class="bg-base-100 rounded-lg overflow-hidden">
         <div v-if="leavesStore.loading" class="flex justify-center py-8">
           <div class="loading loading-spinner loading-lg"></div>
         </div>
@@ -156,26 +156,26 @@
           <table class="table table-zebra w-full">
             <thead>
               <tr>
-                <th class="text-gray-300">Employee</th>
-                <th class="text-gray-300">Leave Type</th>
-                <th class="text-gray-300">Dates</th>
-                <th class="text-gray-300">Days</th>
-                <th class="text-gray-300">Reason</th>
-                <th class="text-gray-300">Status</th>
-                <th class="text-gray-300">Applied</th>
-                <th class="text-gray-300">Actions</th>
+                <th>Employee</th>
+                <th>Leave Type</th>
+                <th>Dates</th>
+                <th>Days</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Applied</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr v-if="leavesStore.leaves.length === 0">
-                <td colspan="8" class="text-center py-8 text-gray-400">
+                <td colspan="8" class="text-center py-8 text-base-content/50">
                   No leave requests found
                 </td>
               </tr>
               <tr v-else v-for="leave in leavesStore.leaves" :key="leave.id">
                 <td>
-                  <div class="font-medium text-white">{{ leave.employeeName }}</div>
-                  <div class="text-gray-400 text-sm">{{ leave.employeeEmail }}</div>
+                  <div class="font-medium">{{ leave.employeeName }}</div>
+                  <div class="text-base-content/60 text-sm">{{ leave.employeeEmail }}</div>
                 </td>
                 <td>
                   <div 
@@ -186,19 +186,19 @@
                   </div>
                 </td>
                 <td>
-                  <div class="text-white">{{ formatDate(leave.startDate) }}</div>
-                  <div class="text-gray-400 text-sm">to {{ formatDate(leave.endDate) }}</div>
+                  <div>{{ formatDate(leave.startDate) }}</div>
+                  <div class="text-base-content/60 text-sm">to {{ formatDate(leave.endDate) }}</div>
                 </td>
                 <td>
-                  <div class="font-medium text-white">
+                  <div class="font-medium">
                     {{ leave.totalDays }} {{ leave.totalDays === 1 ? 'day' : 'days' }}
                   </div>
-                  <div v-if="leave.isHalfDay" class="text-xs text-gray-400">
+                  <div v-if="leave.isHalfDay" class="text-xs text-base-content/60">
                     {{ leave.halfDayPeriod }} half-day
                   </div>
                 </td>
                 <td>
-                  <div class="text-white max-w-xs truncate" :title="leave.reason">
+                  <div class="max-w-xs truncate" :title="leave.reason">
                     {{ leave.reason }}
                   </div>
                 </td>
@@ -209,14 +209,14 @@
                   >
                     {{ leave.status.charAt(0).toUpperCase() + leave.status.slice(1) }}
                   </div>
-                  <div v-if="leave.status === 'approved'" class="text-xs text-gray-400 mt-1">
+                  <div v-if="leave.status === 'approved'" class="text-xs text-base-content/60 mt-1">
                     by {{ leave.approverName }}
                   </div>
                   <div v-if="leave.status === 'rejected' && leave.rejectionReason" class="text-xs text-red-400 mt-1">
                     {{ leave.rejectionReason }}
                   </div>
                 </td>
-                <td class="text-gray-400 text-sm">
+                <td class="text-base-content/60 text-sm">
                   {{ formatDate(leave.appliedAt) }}
                 </td>
                 <td>
@@ -261,9 +261,9 @@
         </div>
 
         <!-- Pagination -->
-        <div v-if="leavesStore.pagination.pages > 1" class="p-4 border-t border-gray-700">
+        <div v-if="leavesStore.pagination.pages > 1" class="p-4 border-t border-base-300">
           <div class="flex justify-between items-center">
-            <div class="text-sm text-gray-400">
+            <div class="text-sm text-base-content/60">
               Showing {{ ((leavesStore.pagination.page - 1) * leavesStore.pagination.limit) + 1 }} 
               to {{ Math.min(leavesStore.pagination.page * leavesStore.pagination.limit, leavesStore.pagination.total) }} 
               of {{ leavesStore.pagination.total }} results
@@ -305,21 +305,21 @@
 
     <!-- Leave Details Modal -->
     <div v-if="showDetailsModal" class="modal modal-open">
-      <div class="modal-box bg-gray-800 text-white max-w-2xl">
+      <div class="modal-box bg-base-100 max-w-2xl">
         <h3 class="font-bold text-lg mb-4">Leave Request Details</h3>
         
         <div v-if="selectedLeave" class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="label">
-                <span class="label-text text-gray-300">Employee</span>
+                <span class="label-text">Employee</span>
               </label>
-              <div class="text-white">{{ selectedLeave.employeeName }}</div>
-              <div class="text-gray-400 text-sm">{{ selectedLeave.employeeEmail }}</div>
+              <div>{{ selectedLeave.employeeName }}</div>
+              <div class="text-base-content/60 text-sm">{{ selectedLeave.employeeEmail }}</div>
             </div>
             <div>
               <label class="label">
-                <span class="label-text text-gray-300">Leave Type</span>
+                <span class="label-text">Leave Type</span>
               </label>
               <div 
                 class="badge"
@@ -333,25 +333,25 @@
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="label">
-                <span class="label-text text-gray-300">Start Date</span>
+                <span class="label-text">Start Date</span>
               </label>
-              <div class="text-white">{{ formatDate(selectedLeave.startDate) }}</div>
+              <div>{{ formatDate(selectedLeave.startDate) }}</div>
             </div>
             <div>
               <label class="label">
-                <span class="label-text text-gray-300">End Date</span>
+                <span class="label-text">End Date</span>
               </label>
-              <div class="text-white">{{ formatDate(selectedLeave.endDate) }}</div>
+              <div>{{ formatDate(selectedLeave.endDate) }}</div>
             </div>
           </div>
 
           <div>
             <label class="label">
-              <span class="label-text text-gray-300">Total Days</span>
+              <span class="label-text">Total Days</span>
             </label>
-            <div class="text-white">
+            <div>
               {{ selectedLeave.totalDays }} {{ selectedLeave.totalDays === 1 ? 'day' : 'days' }}
-              <span v-if="selectedLeave.isHalfDay" class="text-gray-400">
+              <span v-if="selectedLeave.isHalfDay" class="text-base-content/60">
                 ({{ selectedLeave.halfDayPeriod }} half-day)
               </span>
             </div>
@@ -359,21 +359,21 @@
 
           <div>
             <label class="label">
-              <span class="label-text text-gray-300">Reason</span>
+              <span class="label-text">Reason</span>
             </label>
-            <div class="text-white">{{ selectedLeave.reason }}</div>
+            <div>{{ selectedLeave.reason }}</div>
           </div>
 
           <div v-if="selectedLeave.emergencyContact">
             <label class="label">
-              <span class="label-text text-gray-300">Emergency Contact</span>
+              <span class="label-text">Emergency Contact</span>
             </label>
-            <div class="text-white">{{ selectedLeave.emergencyContact }}</div>
+            <div>{{ selectedLeave.emergencyContact }}</div>
           </div>
 
           <div>
             <label class="label">
-              <span class="label-text text-gray-300">Status</span>
+              <span class="label-text">Status</span>
             </label>
             <div 
               class="badge"
@@ -385,18 +385,18 @@
 
           <div v-if="selectedLeave.status === 'approved'">
             <label class="label">
-              <span class="label-text text-gray-300">Approved By</span>
+              <span class="label-text">Approved By</span>
             </label>
-            <div class="text-white">{{ selectedLeave.approverName }}</div>
-            <div class="text-gray-400 text-sm">{{ formatDate(selectedLeave.approvedAt) }}</div>
+            <div>{{ selectedLeave.approverName }}</div>
+            <div class="text-base-content/60 text-sm">{{ formatDate(selectedLeave.approvedAt) }}</div>
           </div>
 
           <div v-if="selectedLeave.status === 'rejected'">
             <label class="label">
-              <span class="label-text text-gray-300">Rejection Reason</span>
+              <span class="label-text">Rejection Reason</span>
             </label>
             <div class="text-red-400">{{ selectedLeave.rejectionReason }}</div>
-            <div class="text-gray-400 text-sm">{{ formatDate(selectedLeave.rejectedAt) }}</div>
+            <div class="text-base-content/60 text-sm">{{ formatDate(selectedLeave.rejectedAt) }}</div>
           </div>
 
           <!-- Action buttons for pending requests -->
@@ -425,12 +425,12 @@
 
     <!-- Rejection Modal -->
     <div v-if="showRejectionModal" class="modal modal-open">
-      <div class="modal-box bg-gray-800 text-white">
+      <div class="modal-box bg-base-100">
         <h3 class="font-bold text-lg mb-4">Reject Leave Request</h3>
         
         <div class="form-control">
           <label class="label">
-            <span class="label-text text-gray-300">Reason for Rejection</span>
+            <span class="label-text">Reason for Rejection</span>
           </label>
           <textarea 
             v-model="rejectionReason"
@@ -439,7 +439,7 @@
             maxlength="300"
           ></textarea>
           <label class="label">
-            <span class="label-text-alt text-gray-400">{{ rejectionReason.length }}/300 characters</span>
+            <span class="label-text-alt text-base-content/60">{{ rejectionReason.length }}/300 characters</span>
           </label>
         </div>
         
@@ -662,12 +662,3 @@ useHead({
 })
 </script>
 
-<style scoped>
-.table th {
-  background-color: rgb(31 41 55);
-}
-
-.table-zebra tbody tr:nth-child(even) {
-  background-color: rgb(55 65 81);
-}
-</style>

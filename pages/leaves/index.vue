@@ -1,10 +1,10 @@
 <template>
-  <div class="container mx-auto px-4 py-8 bg-gray-900 min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-white">My Leaves</h1>
-        <p class="text-gray-300 mt-2">Manage your leave requests and view balances</p>
+        <h1 class="text-3xl font-bold">My Leaves</h1>
+        <p class="text-base-content/70 mt-2">Manage your leave requests and view balances</p>
       </div>
       <div class="flex gap-4">
         <NuxtLink to="/leaves/request" class="btn btn-primary">
@@ -18,20 +18,20 @@
 
     <!-- Leave Balance Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <div v-if="leavesStore.currentBalance" v-for="(balance, type) in leavesStore.currentBalance.leaveBalances" :key="type" class="card bg-gray-800 shadow-lg">
+      <div v-if="leavesStore.currentBalance" v-for="(balance, type) in leavesStore.currentBalance.leaveBalances" :key="type" class="card bg-base-100 shadow-lg">
         <div class="card-body">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-white capitalize">{{ type }}</h3>
-              <p class="text-gray-400 text-sm">{{ leavesStore.getLeaveTypeLabel(type) }}</p>
+              <h3 class="text-lg font-semibold capitalize">{{ type }}</h3>
+              <p class="text-base-content/70 text-sm">{{ leavesStore.getLeaveTypeLabel(type) }}</p>
             </div>
             <div class="text-right">
               <div class="text-2xl font-bold text-primary">{{ balance.remaining }}</div>
-              <div class="text-sm text-gray-400">of {{ balance.total }} days</div>
+              <div class="text-sm text-base-content/70">of {{ balance.total }} days</div>
             </div>
           </div>
           <div class="mt-4">
-            <div class="flex justify-between text-sm text-gray-400 mb-1">
+            <div class="flex justify-between text-sm text-base-content/70 mb-1">
               <span>Used: {{ balance.used }}</span>
               <span>{{ Math.round((balance.remaining / balance.total) * 100) }}% left</span>
             </div>
@@ -46,7 +46,7 @@
     </div>
 
     <!-- Filters -->
-    <div class="bg-gray-800 rounded-lg p-4 mb-6">
+    <div class="bg-base-100 rounded-lg p-4 mb-6">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="form-control">
           <select v-model="filters.status" class="select select-bordered" @change="applyFilters">
@@ -83,7 +83,7 @@
     </div>
 
     <!-- Leaves Table -->
-    <div class="bg-gray-800 rounded-lg overflow-hidden">
+    <div class="bg-base-100 rounded-lg overflow-hidden">
       <div v-if="leavesStore.loading" class="flex justify-center py-8">
         <div class="loading loading-spinner loading-lg"></div>
       </div>
@@ -99,18 +99,18 @@
         <table class="table table-zebra w-full">
           <thead>
             <tr>
-              <th class="text-gray-300">Leave Type</th>
-              <th class="text-gray-300">Dates</th>
-              <th class="text-gray-300">Days</th>
-              <th class="text-gray-300">Reason</th>
-              <th class="text-gray-300">Status</th>
-              <th class="text-gray-300">Applied</th>
-              <th class="text-gray-300">Actions</th>
+              <th>Leave Type</th>
+              <th>Dates</th>
+              <th>Days</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Applied</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr v-if="leavesStore.leaves.length === 0">
-              <td colspan="7" class="text-center py-8 text-gray-400">
+              <td colspan="7" class="text-center py-8 text-base-content/50">
                 No leave requests found
               </td>
             </tr>
@@ -126,19 +126,19 @@
                 </div>
               </td>
               <td>
-                <div class="text-white">{{ formatDate(leave.startDate) }}</div>
-                <div class="text-gray-400 text-sm">to {{ formatDate(leave.endDate) }}</div>
+                <div>{{ formatDate(leave.startDate) }}</div>
+                <div class="text-base-content/70 text-sm">to {{ formatDate(leave.endDate) }}</div>
               </td>
               <td>
-                <div class="font-medium text-white">
+                <div class="font-medium">
                   {{ leave.totalDays }} {{ leave.totalDays === 1 ? 'day' : 'days' }}
                 </div>
-                <div v-if="leave.isHalfDay" class="text-xs text-gray-400">
+                <div v-if="leave.isHalfDay" class="text-xs text-base-content/70">
                   {{ leave.halfDayPeriod }} half-day
                 </div>
               </td>
               <td>
-                <div class="text-white max-w-xs truncate" :title="leave.reason">
+                <div class="max-w-xs truncate" :title="leave.reason">
                   {{ leave.reason }}
                 </div>
               </td>
@@ -153,7 +153,7 @@
                   {{ leave.rejectionReason }}
                 </div>
               </td>
-              <td class="text-gray-400 text-sm">
+              <td class="text-base-content/70 text-sm">
                 {{ formatDate(leave.appliedAt) }}
               </td>
               <td>
@@ -236,14 +236,14 @@
 
     <!-- Leave Details Modal -->
     <div v-if="showDetailsModal" class="modal modal-open">
-      <div class="modal-box bg-gray-800 text-white max-w-2xl">
+      <div class="modal-box bg-base-100 max-w-2xl">
         <h3 class="font-bold text-lg mb-4">Leave Request Details</h3>
         
         <div v-if="selectedLeave" class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="label">
-                <span class="label-text text-gray-300">Leave Type</span>
+                <span class="label-text">Leave Type</span>
               </label>
               <div 
                 class="badge"
@@ -254,7 +254,7 @@
             </div>
             <div>
               <label class="label">
-                <span class="label-text text-gray-300">Status</span>
+                <span class="label-text">Status</span>
               </label>
               <div 
                 class="badge"
@@ -268,25 +268,25 @@
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="label">
-                <span class="label-text text-gray-300">Start Date</span>
+                <span class="label-text">Start Date</span>
               </label>
-              <div class="text-white">{{ formatDate(selectedLeave.startDate) }}</div>
+              <div>{{ formatDate(selectedLeave.startDate) }}</div>
             </div>
             <div>
               <label class="label">
-                <span class="label-text text-gray-300">End Date</span>
+                <span class="label-text">End Date</span>
               </label>
-              <div class="text-white">{{ formatDate(selectedLeave.endDate) }}</div>
+              <div>{{ formatDate(selectedLeave.endDate) }}</div>
             </div>
           </div>
 
           <div>
             <label class="label">
-              <span class="label-text text-gray-300">Total Days</span>
+              <span class="label-text">Total Days</span>
             </label>
-            <div class="text-white">
+            <div>
               {{ selectedLeave.totalDays }} {{ selectedLeave.totalDays === 1 ? 'day' : 'days' }}
-              <span v-if="selectedLeave.isHalfDay" class="text-gray-400">
+              <span v-if="selectedLeave.isHalfDay" class="text-base-content/60">
                 ({{ selectedLeave.halfDayPeriod }} half-day)
               </span>
             </div>
@@ -294,32 +294,32 @@
 
           <div>
             <label class="label">
-              <span class="label-text text-gray-300">Reason</span>
+              <span class="label-text">Reason</span>
             </label>
-            <div class="text-white">{{ selectedLeave.reason }}</div>
+            <div>{{ selectedLeave.reason }}</div>
           </div>
 
           <div v-if="selectedLeave.emergencyContact">
             <label class="label">
-              <span class="label-text text-gray-300">Emergency Contact</span>
+              <span class="label-text">Emergency Contact</span>
             </label>
-            <div class="text-white">{{ selectedLeave.emergencyContact }}</div>
+            <div>{{ selectedLeave.emergencyContact }}</div>
           </div>
 
           <div v-if="selectedLeave.status === 'approved'">
             <label class="label">
-              <span class="label-text text-gray-300">Approved By</span>
+              <span class="label-text">Approved By</span>
             </label>
-            <div class="text-white">{{ selectedLeave.approverName }}</div>
-            <div class="text-gray-400 text-sm">{{ formatDate(selectedLeave.approvedAt) }}</div>
+            <div>{{ selectedLeave.approverName }}</div>
+            <div class="text-base-content/60 text-sm">{{ formatDate(selectedLeave.approvedAt) }}</div>
           </div>
 
           <div v-if="selectedLeave.status === 'rejected'">
             <label class="label">
-              <span class="label-text text-gray-300">Rejection Reason</span>
+              <span class="label-text">Rejection Reason</span>
             </label>
             <div class="text-red-400">{{ selectedLeave.rejectionReason }}</div>
-            <div class="text-gray-400 text-sm">{{ formatDate(selectedLeave.rejectedAt) }}</div>
+            <div class="text-base-content/60 text-sm">{{ formatDate(selectedLeave.rejectedAt) }}</div>
           </div>
         </div>
         
@@ -454,12 +454,3 @@ useHead({
 })
 </script>
 
-<style scoped>
-.table th {
-  background-color: rgb(31 41 55);
-}
-
-.table-zebra tbody tr:nth-child(even) {
-  background-color: rgb(55 65 81);
-}
-</style>

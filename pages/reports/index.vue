@@ -1,17 +1,17 @@
 <template>
-  <div class="container mx-auto px-4 py-8 bg-gray-900 min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-white">Reports Dashboard</h1>
-        <p class="text-gray-300 mt-2">Generate comprehensive reports for your organization</p>
+        <h1 class="text-3xl font-bold">Reports Dashboard</h1>
+        <p class="text-base-content/70 mt-2">Generate comprehensive reports for your organization</p>
       </div>
     </div>
 
     <!-- Report Categories -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Invoice Reports -->
-      <div class="card bg-gray-800 shadow-xl border border-gray-700 hover:border-primary transition-colors">
+      <div class="card bg-base-100 shadow-xl border border-base-300 hover:border-primary transition-colors">
         <div class="card-body">
           <div class="flex items-center mb-4">
             <div class="avatar placeholder mr-4">
@@ -21,10 +21,10 @@
                 </svg>
               </div>
             </div>
-            <h2 class="card-title text-white">Invoice Reports</h2>
+            <h2 class="card-title">Invoice Reports</h2>
           </div>
-          <p class="text-gray-300 mb-4">Generate detailed invoice reports based on timesheet data with billable hours and rates.</p>
-          <ul class="text-sm text-gray-400 mb-6 space-y-1">
+          <p class="text-base-content/70 mb-4">Generate detailed invoice reports based on timesheet data with billable hours and rates.</p>
+          <ul class="text-sm text-base-content/70 mb-6 space-y-1">
             <li>• Billable hours tracking</li>
             <li>• Rate calculations</li>
             <li>• Project-based invoicing</li>
@@ -42,7 +42,7 @@
       </div>
 
       <!-- Timesheet Reports -->
-      <div class="card bg-gray-800 shadow-xl border border-gray-700 hover:border-secondary transition-colors">
+      <div class="card bg-base-100 shadow-xl border border-base-300 hover:border-secondary transition-colors">
         <div class="card-body">
           <div class="flex items-center mb-4">
             <div class="avatar placeholder mr-4">
@@ -52,10 +52,10 @@
                 </svg>
               </div>
             </div>
-            <h2 class="card-title text-white">Timesheet Reports</h2>
+            <h2 class="card-title text-base-content">Timesheet Reports</h2>
           </div>
-          <p class="text-gray-300 mb-4">Comprehensive timesheet analytics and reporting for all employees and projects.</p>
-          <ul class="text-sm text-gray-400 mb-6 space-y-1">
+          <p class="text-base-content/70 mb-4">Comprehensive timesheet analytics and reporting for all employees and projects.</p>
+          <ul class="text-sm text-base-content/60 mb-6 space-y-1">
             <li>• Time tracking analytics</li>
             <li>• Employee productivity</li>
             <li>• Project time allocation</li>
@@ -73,7 +73,7 @@
       </div>
 
       <!-- Employee Reports -->
-      <div class="card bg-gray-800 shadow-xl border border-gray-700 hover:border-accent transition-colors">
+      <div class="card bg-base-100 shadow-xl border border-base-300 hover:border-accent transition-colors">
         <div class="card-body">
           <div class="flex items-center mb-4">
             <div class="avatar placeholder mr-4">
@@ -83,10 +83,10 @@
                 </svg>
               </div>
             </div>
-            <h2 class="card-title text-white">Employee Reports</h2>
+            <h2 class="card-title text-base-content">Employee Reports</h2>
           </div>
-          <p class="text-gray-300 mb-4">Detailed employee performance and HR analytics for better workforce management.</p>
-          <ul class="text-sm text-gray-400 mb-6 space-y-1">
+          <p class="text-base-content/70 mb-4">Detailed employee performance and HR analytics for better workforce management.</p>
+          <ul class="text-sm text-base-content/60 mb-6 space-y-1">
             <li>• Performance metrics</li>
             <li>• Department analytics</li>
             <li>• Attendance tracking</li>
@@ -105,37 +105,37 @@
     </div>
 
     <!-- Quick Stats -->
-    <div class="bg-gray-800 rounded-lg shadow p-6 mt-8">
-      <h3 class="text-lg font-semibold mb-6 text-white">Quick Statistics</h3>
+    <div class="bg-base-100 rounded-lg shadow p-6 mt-8">
+      <h3 class="text-lg font-semibold mb-6 text-base-content">Quick Statistics</h3>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="stat bg-gray-700 rounded-lg p-4">
-          <div class="stat-title text-gray-300">This Month</div>
+        <div class="stat bg-base-200 rounded-lg p-4">
+          <div class="stat-title text-base-content/70">This Month</div>
           <div class="stat-value text-primary">{{stats.totalHours}}h</div>
-          <div class="stat-desc text-gray-400">Total logged hours</div>
+          <div class="stat-desc text-base-content/60">Total logged hours</div>
         </div>
-        <div class="stat bg-gray-700 rounded-lg p-4">
-          <div class="stat-title text-gray-300">Billable Hours</div>
+        <div class="stat bg-base-200 rounded-lg p-4">
+          <div class="stat-title text-base-content/70">Billable Hours</div>
           <div class="stat-value text-success">{{stats.billableHours}}h</div>
-          <div class="stat-desc text-gray-400">{{stats.billablePercentage}}% of total</div>
+          <div class="stat-desc text-base-content/60">{{stats.billablePercentage}}% of total</div>
         </div>
-        <div class="stat bg-gray-700 rounded-lg p-4">
-          <div class="stat-title text-gray-300">Active Projects</div>
+        <div class="stat bg-base-200 rounded-lg p-4">
+          <div class="stat-title text-base-content/70">Active Projects</div>
           <div class="stat-value text-info">{{stats.activeProjects}}</div>
-          <div class="stat-desc text-gray-400">Currently tracked</div>
+          <div class="stat-desc text-base-content/60">Currently tracked</div>
         </div>
-        <div class="stat bg-gray-700 rounded-lg p-4">
-          <div class="stat-title text-gray-300">Revenue</div>
+        <div class="stat bg-base-200 rounded-lg p-4">
+          <div class="stat-title text-base-content/70">Revenue</div>
           <div class="stat-value text-accent">{{stats.totalRevenue?.toLocaleString('th-TH')}}</div>
-          <div class="stat-desc text-gray-400">This month estimate</div>
+          <div class="stat-desc text-base-content/60">This month estimate</div>
         </div>
       </div>
     </div>
 
     <!-- Recent Activity -->
-    <div class="bg-gray-800 rounded-lg shadow p-6 mt-8">
-      <h3 class="text-lg font-semibold mb-6 text-white">Recent Report Activity</h3>
+    <div class="bg-base-100 rounded-lg shadow p-6 mt-8">
+      <h3 class="text-lg font-semibold mb-6 text-base-content">Recent Report Activity</h3>
       <div class="space-y-4">
-        <div v-for="activity in recentActivity" :key="activity.id" class="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+        <div v-for="activity in recentActivity" :key="activity.id" class="flex items-center justify-between p-4 bg-base-200 rounded-lg">
           <div class="flex items-center gap-4">
             <div class="avatar placeholder">
               <div class="bg-neutral text-neutral-content rounded-full w-10">
@@ -145,12 +145,12 @@
               </div>
             </div>
             <div>
-              <p class="text-white font-medium">{{activity.type}} report generated</p>
-              <p class="text-gray-400 text-sm">{{activity.description}}</p>
+              <p class="text-base-content font-medium">{{activity.type}} report generated</p>
+              <p class="text-base-content/60 text-sm">{{activity.description}}</p>
             </div>
           </div>
           <div class="text-right">
-            <p class="text-gray-300 text-sm">{{formatDate(activity.createdAt)}}</p>
+            <p class="text-base-content/70 text-sm">{{formatDate(activity.createdAt)}}</p>
             <div class="badge badge-sm" :class="getStatusBadge(activity.status)">{{activity.status}}</div>
           </div>
         </div>

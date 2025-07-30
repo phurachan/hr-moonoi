@@ -1,10 +1,10 @@
 <template>
-  <div class="container mx-auto px-4 py-8 bg-gray-900 min-h-screen text-white">
+  <div class="container mx-auto px-4 py-8 min-h-screen">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
       <div>
-        <h1 class="text-3xl font-bold text-white">Settings</h1>
-        <p class="text-gray-300 mt-2">Manage roles, permissions, and user access</p>
+        <h1 class="text-3xl font-bold">Settings</h1>
+        <p class="text-base-content/70 mt-2">Manage roles, permissions, and user access</p>
       </div>
       <NuxtLink to="/dashboard" class="btn btn-outline">
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -15,7 +15,7 @@
     </div>
 
     <!-- Tab Navigation -->
-    <div class="tabs tabs-boxed mb-8 bg-gray-800">
+    <div class="tabs tabs-boxed mb-8 bg-base-200">
       <!-- Roles Tab - only show if user has settings.roles permission -->
       <a 
         v-if="menuConfig.isMenuItemAccessible(menuConfig.getMenuItemById('settings-roles'))"
@@ -60,7 +60,7 @@
     <div v-if="activeTab === 'roles' && menuConfig.isMenuItemAccessible(menuConfig.getMenuItemById('settings-roles'))" class="space-y-6">
       <!-- Roles Header -->
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-xl font-semibold text-white">Roles Management</h2>
+        <h2 class="text-xl font-semibold text-base-content">Roles Management</h2>
         <button @click="openRoleModal()" class="btn btn-primary">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -70,7 +70,7 @@
       </div>
 
       <!-- Roles Search -->
-      <div class="bg-gray-800 rounded-lg p-4 mb-6">
+      <div class="bg-base-100 rounded-lg p-4 mb-6">
         <div class="flex gap-4">
           <div class="form-control flex-1">
             <input
@@ -92,16 +92,16 @@
       </div>
 
       <!-- Roles Table -->
-      <div class="bg-gray-800 rounded-lg overflow-hidden">
+      <div class="bg-base-200 rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
           <table class="table table-zebra w-full">
             <thead>
               <tr>
-                <th class="text-gray-300">Name</th>
-                <th class="text-gray-300">Description</th>
-                <th class="text-gray-300">Permissions</th>
-                <th class="text-gray-300">Status</th>
-                <th class="text-gray-300">Actions</th>
+                <th class="text-base-content">Name</th>
+                <th class="text-base-content">Description</th>
+                <th class="text-base-content">Permissions</th>
+                <th class="text-base-content">Status</th>
+                <th class="text-base-content">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -111,14 +111,14 @@
                 </td>
               </tr>
               <tr v-else-if="rolesStore.roles.length === 0">
-                <td colspan="5" class="text-center py-8 text-gray-400">
+                <td colspan="5" class="text-center py-8 text-base-content/60">
                   No roles found
                 </td>
               </tr>
               <tr v-else v-for="role in rolesStore.roles" :key="role.id">
-                <td class="font-medium text-white">{{ role.name }}</td>
-                <td class="text-gray-300">{{ role.description }}</td>
-                <td class="text-gray-300">{{ role.permissions.length }} permissions</td>
+                <td class="font-medium text-base-content">{{ role.name }}</td>
+                <td class="text-base-content">{{ role.description }}</td>
+                <td class="text-base-content">{{ role.permissions.length }} permissions</td>
                 <td>
                   <div class="badge" :class="role.isActive ? 'badge-success' : 'badge-error'">
                     {{ role.isActive ? 'Active' : 'Inactive' }}
@@ -157,7 +157,7 @@
     <div v-if="activeTab === 'permissions' && menuConfig.isMenuItemAccessible(menuConfig.getMenuItemById('settings-roles'))" class="space-y-6">
       <!-- Permissions Header -->
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-xl font-semibold text-white">Permissions Management</h2>
+        <h2 class="text-xl font-semibold text-base-content">Permissions Management</h2>
         <button @click="openPermissionModal()" class="btn btn-primary">
           <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
@@ -167,7 +167,7 @@
       </div>
 
       <!-- Permissions Search -->
-      <div class="bg-gray-800 rounded-lg p-4 mb-6">
+      <div class="bg-base-100 rounded-lg p-4 mb-6">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div class="form-control">
             <input
@@ -207,17 +207,17 @@
       </div>
 
       <!-- Permissions Table -->
-      <div class="bg-gray-800 rounded-lg overflow-hidden">
+      <div class="bg-base-200 rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
           <table class="table table-zebra w-full">
             <thead>
               <tr>
-                <th class="text-gray-300">Name</th>
-                <th class="text-gray-300">Module</th>
-                <th class="text-gray-300">Action</th>
-                <th class="text-gray-300">Resource</th>
-                <th class="text-gray-300">Status</th>
-                <th class="text-gray-300">Actions</th>
+                <th class="text-base-content">Name</th>
+                <th class="text-base-content">Module</th>
+                <th class="text-base-content">Action</th>
+                <th class="text-base-content">Resource</th>
+                <th class="text-base-content">Status</th>
+                <th class="text-base-content">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -227,17 +227,17 @@
                 </td>
               </tr>
               <tr v-else-if="permissionsStore.permissions.length === 0">
-                <td colspan="6" class="text-center py-8 text-gray-400">
+                <td colspan="6" class="text-center py-8 text-base-content/60">
                   No permissions found
                 </td>
               </tr>
               <tr v-else v-for="permission in permissionsStore.permissions" :key="permission.id">
-                <td class="font-medium text-white">{{ permission.name }}</td>
-                <td class="text-gray-300">{{ permission.module }}</td>
+                <td class="font-medium text-base-content">{{ permission.name }}</td>
+                <td class="text-base-content">{{ permission.module }}</td>
                 <td>
                   <div class="badge badge-outline">{{ permission.action }}</div>
                 </td>
-                <td class="text-gray-300">{{ permission.resource }}</td>
+                <td class="text-base-content">{{ permission.resource }}</td>
                 <td>
                   <div class="badge" :class="permission.isActive ? 'badge-success' : 'badge-error'">
                     {{ permission.isActive ? 'Active' : 'Inactive' }}
@@ -274,18 +274,18 @@
 
     <!-- User Roles Tab -->
     <div v-if="activeTab === 'users' && menuConfig.isMenuItemAccessible(menuConfig.getMenuItemById('settings-users'))" class="space-y-6">
-      <EmployeeUserRoleManagement />
+      <UserRoleManagement />
     </div>
 
     <!-- Role Modal -->
     <div v-if="showRoleModal" class="modal modal-open">
-      <div class="modal-box bg-gray-800 text-white">
+      <div class="modal-box bg-base-200 text-base-content">
         <h3 class="font-bold text-lg mb-4">{{ editingRole ? 'Edit Role' : 'Add Role' }}</h3>
         
         <div class="space-y-4">
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Name</span>
+              <span class="label-text text-base-content">Name</span>
             </label>
             <input
               v-model="roleForm.name"
@@ -297,7 +297,7 @@
           
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Description</span>
+              <span class="label-text text-base-content">Description</span>
             </label>
             <textarea
               v-model="roleForm.description"
@@ -308,13 +308,13 @@
           
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Permissions</span>
-              <span class="label-text-alt text-gray-400">{{ Object.keys(groupedPermissions).length }} modules, {{ permissionsStore.permissions.length }} total permissions</span>
+              <span class="label-text text-base-content">Permissions</span>
+              <span class="label-text-alt text-base-content/60">{{ Object.keys(groupedPermissions).length }} modules, {{ permissionsStore.permissions.length }} total permissions</span>
             </label>
-            <div class="max-h-80 overflow-y-auto border border-gray-600 rounded p-3">
+            <div class="max-h-80 overflow-y-auto border border-base-300 rounded p-3">
               <div v-for="(permissions, module) in groupedPermissions" :key="module" class="mb-4">
-                <div class="flex items-center justify-between mb-2 border-b border-gray-600 pb-1">
-                  <h4 class="font-semibold text-white capitalize">
+                <div class="flex items-center justify-between mb-2 border-b border-base-300 pb-1">
+                  <h4 class="font-semibold text-base-content capitalize">
                     {{ module }} ({{ permissions.length }})
                   </h4>
                   <div class="flex gap-1">
@@ -339,7 +339,7 @@
                 <div class="grid grid-cols-1 gap-1">
                   <div v-for="permission in permissions" :key="permission.id" class="form-control">
                     <label class="label cursor-pointer py-1">
-                      <span class="label-text text-gray-300 text-sm">{{ permission.name }}</span>
+                      <span class="label-text text-base-content text-sm">{{ permission.name }}</span>
                       <input
                         type="checkbox"
                         class="checkbox checkbox-sm"
@@ -352,7 +352,7 @@
               </div>
               
               <!-- No permissions message -->
-              <div v-if="Object.keys(groupedPermissions).length === 0" class="text-center py-8 text-gray-400">
+              <div v-if="Object.keys(groupedPermissions).length === 0" class="text-center py-8 text-base-content/60">
                 No permissions available. Please ensure permissions are properly loaded.
               </div>
             </div>
@@ -360,7 +360,7 @@
           
           <div class="form-control">
             <label class="label cursor-pointer">
-              <span class="label-text text-gray-300">Active</span>
+              <span class="label-text text-base-content">Active</span>
               <input
                 type="checkbox"
                 class="checkbox"
@@ -383,13 +383,13 @@
 
     <!-- Permission Modal -->
     <div v-if="showPermissionModal" class="modal modal-open">
-      <div class="modal-box bg-gray-800 text-white">
+      <div class="modal-box bg-base-200 text-base-content">
         <h3 class="font-bold text-lg mb-4">{{ editingPermission ? 'Edit Permission' : 'Add Permission' }}</h3>
         
         <div class="space-y-4">
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Name</span>
+              <span class="label-text text-base-content">Name</span>
             </label>
             <input
               v-model="permissionForm.name"
@@ -401,7 +401,7 @@
           
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Description</span>
+              <span class="label-text text-base-content">Description</span>
             </label>
             <textarea
               v-model="permissionForm.description"
@@ -412,7 +412,7 @@
           
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Module</span>
+              <span class="label-text text-base-content">Module</span>
             </label>
             <input
               v-model="permissionForm.module"
@@ -424,7 +424,7 @@
           
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Action</span>
+              <span class="label-text text-base-content">Action</span>
             </label>
             <select v-model="permissionForm.action" class="select select-bordered">
               <option value="">Select action</option>
@@ -438,7 +438,7 @@
           
           <div class="form-control">
             <label class="label">
-              <span class="label-text text-gray-300">Resource</span>
+              <span class="label-text text-base-content">Resource</span>
             </label>
             <input
               v-model="permissionForm.resource"
@@ -450,7 +450,7 @@
           
           <div class="form-control">
             <label class="label cursor-pointer">
-              <span class="label-text text-gray-300">Active</span>
+              <span class="label-text text-base-content">Active</span>
               <input
                 type="checkbox"
                 class="checkbox"
@@ -478,6 +478,7 @@ import { useRolesStore } from '~/stores/roles'
 import { usePermissionsStore } from '~/stores/permissions'
 import { useAuthStore } from '~/stores/auth'
 import { useMenuConfig } from '~/composables/useMenuConfig'
+import UserRoleManagement from '~/components/employee/UserRoleManagement.vue'
 
 // Check authentication
 const authStore = useAuthStore()
